@@ -105,6 +105,20 @@ public class Composer {
 		this.subscribedDate = subscribedDate;
 	}
 	
+	public Composer(Long id, String pseudo, String password, String lastname, String firstname, String country,
+			String email) {
+		super();
+		this.id = id;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.country = country;
+		this.email = email;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}

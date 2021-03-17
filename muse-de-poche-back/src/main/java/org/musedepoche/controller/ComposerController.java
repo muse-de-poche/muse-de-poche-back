@@ -100,10 +100,11 @@ public class ComposerController {
 		composerDao.deleteById(id);
 
 		if (composerDao.existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Unable to find resource");
+			throw new ResponseStatusException(HttpStatus.OK);
 		}
 	}
 	
+	/*
 	@PostMapping("/login")
 	@JsonView(IViews.IViewComposer.class)
 	public Composer findByPseudoAndPassword(@RequestBody Composer composer) {
@@ -115,5 +116,7 @@ public class ComposerController {
 			return optComposer.get();
 		}
 	}
+	*/
+	
 
 }

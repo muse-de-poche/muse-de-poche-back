@@ -48,12 +48,12 @@ public abstract class DataDao {
 	@BeforeAll
 	public void init() {
 		/* Composers */
-		Composer jean = new Composer("Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
-		Composer bea = new Composer("Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
-		Composer jc = new Composer("jc", "vd", "France", "jc.vd@gmail.com", new Date());
-		Composer axel = new Composer("Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
-		Composer celine = new Composer("Celine", "Pierre", "France", "celine.pierre@gmail.com", new Date());
-		Composer marc = new Composer("Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
+		Composer jean = new Composer("Jmarc","Jmarc123","Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
+		Composer bea = new Composer("Btyne","Btyne123","Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
+		Composer jc = new Composer("Jvd","Jvd123","jc", "vd", "France", "jc.vd@gmail.com", new Date());
+		Composer axel = new Composer("Atune","Atune123","Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
+		Composer celine = new Composer("Cpierre","Cpierre123","Celine", "Pierre", "France", "celine.pierre@gmail.com", new Date());
+		Composer marc = new Composer("Mjean","Mjean123","Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
 
 		jean = composerDao.save(jean);
 		bea = composerDao.save(bea);
