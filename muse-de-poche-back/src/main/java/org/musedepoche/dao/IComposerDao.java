@@ -15,8 +15,8 @@ public interface IComposerDao extends JpaRepository<Composer, Long> {
 	 * @param id
 	 * @return un optional de composer
 	 */
-	@Query("select c from Composer c where c.id = :id")
-	Optional<Composer> findByIdWithCompositionAndCollaboration(@Param("id") Long id);
+	@Query("select c from Composer c join fetch c.compositions co where c.id = :id")
+	Optional<Composer> findByIdWithComposition(@Param("id") Long id);
 	
 	/**
 	 * Trouve un utilisateur par rapport a son pseudo
