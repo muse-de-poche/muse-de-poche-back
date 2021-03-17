@@ -46,7 +46,7 @@ public class ComposerController {
 	@GetMapping("/{id}/detail")
 	@JsonView(IViews.IViewComposerDetail.class)
 	public Composer detail(@PathVariable Long id) {
-		Optional<Composer> optComposer = composerDao.findByIdWithCompositionAndCollaboration(id);
+		Optional<Composer> optComposer = composerDao.findByIdWithComposition(id);
 
 		if (optComposer.isPresent()) {
 			return optComposer.get();
