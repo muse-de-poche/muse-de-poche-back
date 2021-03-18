@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,6 +73,26 @@ public class CollaborationController {
 		} 
 
 		return collaboration.get();
+	}
+	
+	@PutMapping("/{id}")
+	@JsonView(IViews.IViewCollaborationDetail.class)
+	public Collaboration update(@Valid @PathVariable Long id, @RequestBody Collaboration collaboration, BindingResult result) {
+		if (!this.collaborationDao.existsById(id) || !id.equals(collaboration.getId())) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+		}
+
+		this.collaborationValidator.validate(collaboration, result);
+
+		if (result.hasErrors()) {
+			String errors = result.getAllErrors().stream().map(e -> "[" + e.getCode() + "] " + e.getDefaultMessage())
+					.collect(Collectors.joining("\n"));
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors);
+		}
+
+		this.collaborationDao.save(collaboration);
+		
+		return this.collaborationDao.findById(id).get();
 	}
 	
 	@GetMapping("/byComposer/{id}")
