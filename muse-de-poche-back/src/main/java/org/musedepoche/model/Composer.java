@@ -12,40 +12,70 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
 public class Composer {
 
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
+	
+	@Column(length = 100)
+	@JsonView(IViews.IViewBasic.class)
+	private String pseudo;
+	
+	@Column(length = 100)
+	@JsonView(IViews.IViewBasic.class)
+	private String password;
 
 	@Column(length = 50)
+	@JsonView(IViews.IViewBasic.class)
 	private String lastname;
 
 	@Column(length = 50)
+	@JsonView(IViews.IViewBasic.class)
 	private String firstname;
 
 	@Column(length = 100)
+	@JsonView(IViews.IViewBasic.class)
 	private String country;
 
 	@Column(length=255)
+	@Email
+	@JsonView(IViews.IViewBasic.class)
 	private String email;
 
 	@Temporal(TemporalType.DATE)
+	@JsonView(IViews.IViewBasic.class)
 	private Date subscribedDate;
 
 	@OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+	@JsonView(IViews.IViewComposerDetail.class)
 	private List<Composition> compositions = new ArrayList<Composition>();
 	
 	@OneToMany(mappedBy = "composer", fetch = FetchType.LAZY)
+	@JsonView(IViews.IViewComposerDetail.class)
 	private List<Collaboration> collaborations = new ArrayList<Collaboration>();
 
 	public Composer() {
 		super();
+		this.subscribedDate = new Date();
 	}
 	
 	
+	
+	public Composer(String pseudo, String password) {
+		super();
+		this.pseudo = pseudo;
+		this.password = password;
+	}
+
+
+
 	public Composer(String lastname, String firstname, String country, String email, Date subscribedDate,
 			List<Composition> compositions, List<Collaboration> collaborations) {
 		super();
@@ -67,9 +97,59 @@ public class Composer {
 		this.subscribedDate = subscribedDate;
 	}
 
+	public Composer(String pseudo, String password, String lastname, String firstname, String country,
+			String email, Date subscribedDate) {
+		super();
+		this.pseudo = pseudo;
+		this.password = password;
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.country = country;
+		this.email = email;
+		this.subscribedDate = subscribedDate;
+	}
+	
+	public Composer(Long id, String pseudo, String password, String lastname, String firstname, String country,
+			String email) {
+		super();
+		this.id = id;
+		this.pseudo = pseudo;
+		this.password = password;
+		this.lastname = lastname;
+		this.firstname = firstname;
+		this.country = country;
+		this.email = email;
+	}
+
+
+
 	public Long getId() {
 		return id;
 	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getPseudo() {
+		return pseudo;
+	}
+
+
+	public void setPseudo(String pseudo) {
+		this.pseudo = pseudo;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 
 	public String getLastname() {
 		return lastname;
@@ -130,15 +210,14 @@ public class Composer {
 	}
 
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
 
 	@Override
 	public String toString() {
-		return "Composer [id=" + id + ", lastname=" + lastname + ", firstname=" + firstname + ", country=" + country
-				+ ", email=" + email + ", subscribedDate=" + subscribedDate + ", compositions=" + compositions + "]";
+		return "Composer [id=" + id + ", pseudo=" + pseudo + ", password=" + password + ", lastname=" + lastname
+				+ ", firstname=" + firstname + ", country=" + country + ", email=" + email + ", subscribedDate="
+				+ subscribedDate + ", compositions=" + compositions + ", collaborations=" + collaborations + "]";
 	}
+
+	
 
 }
