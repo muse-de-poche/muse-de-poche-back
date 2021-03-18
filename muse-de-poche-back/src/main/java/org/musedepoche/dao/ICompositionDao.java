@@ -14,11 +14,11 @@ public interface ICompositionDao extends JpaRepository<Composition, Long> {
 	// findAllSorted
 //	List<Composition> findSort(Sort sort);
 	
-	List<Composition> findByOwner(Long id);
+	@Query("select c from Composition c where c.owner.id = :id")
+	List<Composition> findByOwner(@Param("id") Long id);
+
 	
-//	List<Composition> findByTitleOrOwner(String title, String owner);
-	
-	@Query("select c from Composition c join fetch c.owner s where c.title like %:item% or s.firstname like %:owner%")
-	List<Composition> findByTitleOrOwner(@Param("item") String item, @Param("owner") String owner);
+	@Query("select c from Composition c left join fetch c.owner s where c.title like %:item% or s.pseudo like %:item%")
+	List<Composition> findByTitleOrOwner(@Param("item") String item);
 	
 }
