@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Email;
+
 import com.fasterxml.jackson.annotation.JsonView;
 
 @Entity
@@ -43,6 +45,7 @@ public class Composer {
 	private String country;
 
 	@Column(length=255)
+	@Email
 	@JsonView(IViews.IViewBasic.class)
 	private String email;
 
@@ -60,6 +63,7 @@ public class Composer {
 
 	public Composer() {
 		super();
+		this.subscribedDate = new Date();
 	}
 	
 	

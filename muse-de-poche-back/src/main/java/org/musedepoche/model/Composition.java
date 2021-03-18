@@ -16,6 +16,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.musedepoche.model.IViews.IViewBasic;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * 
  * @author Lionel Rénier Composition is a main component of Muse de Poche, It
@@ -28,35 +32,46 @@ import javax.persistence.TemporalType;
 public class Composition {
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
+	@JsonView(IViews.IViewBasic.class)
 	private String title;
 
+	@JsonView(IViews.IViewBasic.class)
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 
+	@JsonView(IViews.IViewBasic.class)
 	@Temporal(TemporalType.DATE)
 	private Date lastUpdate;
 
+	@JsonView(IViews.IViewBasic.class)
 	private int playsNumber;
 
+	@JsonView(IViews.IViewBasic.class)
 	@ManyToOne
 	private Composer owner;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	@OneToMany(mappedBy = "composition", fetch = FetchType.EAGER)
 	private List<Collaboration> collaborations = new ArrayList<Collaboration>();
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "metronome")
 	private Metronome metronome;
 
-	@OneToMany(mappedBy = "composition", fetch = FetchType.LAZY)
+	@JsonView(IViews.IViewCompositionDetail.class)
+	@OneToMany(mappedBy = "composition")
 	private List<Track> tracks = new ArrayList<Track>();
 
+	@JsonView(IViews.IViewBasic.class)
 	private String blobPath;
 
 	public Composition() {
 		super();
+		this.createdDate = new Date();
 	}
 
 	/**

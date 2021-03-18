@@ -6,11 +6,11 @@ import java.util.Optional;
 
 import org.musedepoche.dao.ICompositionDao;
 import org.musedepoche.model.Composition;
+import org.musedepoche.model.IViews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QSort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 @RestController
 @RequestMapping("/composition")
 public class CompositionController {
@@ -29,18 +31,21 @@ public class CompositionController {
 	@Autowired
 	private ICompositionDao compositionDao;
 
+	@JsonView(IViews.IViewComposition.class)
 	@GetMapping("")
 	public List<Composition> getAllCompositions() {
 		return compositionDao.findAll();
 	}
 
 	@GetMapping("/composer/{id}")
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> getAllCompositionsByComposer(@PathVariable Long id) {
 		List<Composition> listComposer = compositionDao.findByOwner(id);
 		return listComposer;
 	}
 
 	@GetMapping("/{id}")
+	@JsonView(IViews.IViewCompositionDetail.class)
 	public Composition findOneByComposition(@PathVariable Long id) {
 		Optional<Composition> compo = compositionDao.findById(id);
 
@@ -52,6 +57,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/search/{item}")
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> search(@PathVariable String item) {
 		List<Composition> compos = compositionDao.findByTitleOrOwner(item, item);
 		
@@ -60,8 +66,8 @@ public class CompositionController {
 	}
 
 	@PostMapping("")
+	@JsonView(IViews.IViewCompositionDetail.class)
 	public Composition create(@RequestBody Composition compo) {
-		compo.setCreatedDate(new Date());
 		compo = compositionDao.save(compo);
 		return compo;
 	}
@@ -91,6 +97,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/plays-number")
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByPlaysNumber() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "playsNumber")));
@@ -98,6 +105,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/created-date")
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByCreatedDate() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdDate")));
@@ -105,6 +113,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/update-date")
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByUpdateDate() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "updateDate")));
