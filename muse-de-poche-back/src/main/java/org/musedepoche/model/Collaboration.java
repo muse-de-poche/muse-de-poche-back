@@ -12,6 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * Cette entité représente la relation entre une composition et un compositeur.
  * En pratique ceci représente un co-compositeur d'une composition. 
@@ -26,50 +29,64 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Collaboration {
+	
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(IViews.IViewBasic.class)
 	private Date demandDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(IViews.IViewDetail.class)
 	private Date validatedDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(IViews.IViewDetail.class)
 	private Date lastUpdate;
 
 	@ManyToOne
+	@JsonView(IViews.IViewCollaborationComposition.class)
 	private Composition composition;
 
 	@ManyToOne
+	@JsonView(IViews.IViewCollaborationComposer.class)
 	private Composer composer;
 
 	@Enumerated(EnumType.STRING)
+	@JsonView(IViews.IViewDetail.class)
 	private Status status;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "rights")
+	@JsonView(IViews.IViewDetail.class)
 	private Right right;
+	
+	@JsonView(IViews.IViewDetail.class)
+	private String text;
 
 	public Collaboration() {
-
+		this.demandDate = new Date();
+		this.status = Status.WAITING;
+		this.right = Right.READONLY;
 	}
 
-	public Collaboration(Date demandDate, Date validatedDate, Date lastUpdate, Composition composition,
-			Composer composer, Status status, Right right) {
-		super();
-		this.demandDate = demandDate;
-		this.validatedDate = validatedDate;
-		this.lastUpdate = lastUpdate;
-		this.composition = composition;
-		this.composer = composer;
-		this.status = status;
-		this.right = right;
-	}
-
+	/**
+	 * 
+	 * @param id
+	 * @param demandDate
+	 * @param validatedDate
+	 * @param lastUpdate
+	 * @param composition
+	 * @param composer
+	 * @param status
+	 * @param right
+	 * @param text
+	 */
 	public Collaboration(Long id, Date demandDate, Date validatedDate, Date lastUpdate, Composition composition,
-			Composer composer, Status status, Right right) {
+			Composer composer, Status status, Right right, String text) {
 		super();
 		this.id = id;
 		this.demandDate = demandDate;
@@ -79,8 +96,50 @@ public class Collaboration {
 		this.composer = composer;
 		this.status = status;
 		this.right = right;
+		this.text = text;
 	}
 	
+	/**
+	 * 
+	 * @param demandDate
+	 * @param validatedDate
+	 * @param lastUpdate
+	 * @param composition
+	 * @param composer
+	 * @param status
+	 * @param right
+	 * @param text
+	 */
+	public Collaboration(Date demandDate, Date validatedDate, Date lastUpdate, Composition composition,
+			Composer composer, Status status, Right right, String text) {
+		super();
+		this.demandDate = demandDate;
+		this.validatedDate = validatedDate;
+		this.lastUpdate = lastUpdate;
+		this.composition = composition;
+		this.composer = composer;
+		this.status = status;
+		this.right = right;
+		this.text = text;
+	}
+
+	/**
+	 * Constructeur minimal. Ajoute des valeurs par defaut.
+	 * <ul>
+	 * 	<li>{@code demandDate} : La date et heure du jour</li>
+	 * 	<li>{@code validatedDate} : {@code null}</li>
+	 * 	<li>{@code lastUpdate} : {@code null}</li>
+	 * 	<li>{@code status} : {@link Status#WAITING}</li>
+	 * 	<li>{@code right} : {@link Right#READONLY}</li>
+	 * </ul>
+	 * 
+	 * @param composition
+	 * @param composer
+	 * @param text
+	 */
+	public Collaboration(Composition composition, Composer composer, String text) {
+		this(new Date(), null, null, composition, composer, Status.WAITING, Right.READONLY, text);
+	}
 
 	public Long getId() {
 		return id;
@@ -146,11 +205,12 @@ public class Collaboration {
 		this.right = right;
 	}
 
-	@Override
-	public String toString() {
-		return "Collaboration [id=" + id + ", demandDate=" + demandDate + ", validatedDate=" + validatedDate
-				+ ", lastUpdate=" + lastUpdate + ", composition=" + composition + ", composer=" + composer
-				+ ", status=" + status + ", right=" + right + "]";
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
 	}
 
 }
