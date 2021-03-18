@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.musedepoche.dao.IMessageDao;
 import org.musedepoche.model.Collaboration;
+import org.musedepoche.model.IViews;
 import org.musedepoche.model.Message;
 import org.musedepoche.validator.MessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * 
@@ -49,6 +52,7 @@ public class MessageController {
 	}
 
 	@GetMapping("/{id}")
+	@JsonView(IViews.IViewMessage.class)
 	public Message simple(@PathVariable Long id) {
 		Optional<Message> collaboration = this.messageDao.findById(id);
 
@@ -59,12 +63,26 @@ public class MessageController {
 		}
 	}
 	
+	@GetMapping("/{id}/detail")
+	@JsonView(IViews.IViewMessageDetail.class)
+	public Message detail(@PathVariable Long id) {
+		Optional<Message> collaboration = this.messageDao.findById(id);
+
+		if (collaboration.isPresent()) {
+			return collaboration.get();
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "[" + id + "] not exist");
+		}
+	}
+	
 	@GetMapping("/bySender/{id}")
+	@JsonView(IViews.IViewMessageDetail.class)
 	public List<Message> byComposer(@PathVariable Long id) {
 		return this.messageDao.findBySender(id);
 	}
 
-	@GetMapping("/byComposition/{id}")
+	@GetMapping("/bySubject/{id}")
+	@JsonView(IViews.IViewMessageDetail.class)
 	public List<Message> byComposition(@PathVariable Long id) {
 		return this.messageDao.findBySubject(id);
 	}

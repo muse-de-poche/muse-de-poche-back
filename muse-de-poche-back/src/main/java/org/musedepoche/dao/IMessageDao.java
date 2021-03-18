@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.musedepoche.model.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * 
@@ -20,7 +22,8 @@ public interface IMessageDao extends JpaRepository<Message, Long> {
 	 * @param id clé primaire d'un compositeur
 	 * @return la liste des messages trouvé, une liste vide sinon
 	 */
-	List<Message> findBySender(Long id);
+	@Query("select m from Message m where m.sender.id = :id")
+	List<Message> findBySender(@Param("id") Long id);
 	
 	/**
 	 * Trouve tout les message d'une composition.
@@ -28,6 +31,7 @@ public interface IMessageDao extends JpaRepository<Message, Long> {
 	 * @param id clé primaire d'une composition
 	 * @return la liste des messages trouvé, une liste vide sinon
 	 */
+	@Query("select m from Message m where m.subject.id = :id")
 	List<Message> findBySubject(Long id);
 	
 }

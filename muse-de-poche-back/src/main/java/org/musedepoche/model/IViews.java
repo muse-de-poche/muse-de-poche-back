@@ -19,5 +19,9 @@ public interface IViews {
 	
 	public static interface IViewComposition extends IViewBasic {}
 
-	public static interface IViewCompositionDetail extends IViewComposition, IViewBasic {}
+	public static interface IViewCompositionDetail extends IViewComposition, IViewDetail {}
+	
+	public static interface IViewMessage extends IViewBasic {}
+
+	public static interface IViewMessageDetail extends IViewMessage, IViewDetail {}
 }
