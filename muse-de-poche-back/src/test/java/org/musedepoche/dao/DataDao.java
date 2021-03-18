@@ -13,6 +13,12 @@ import org.musedepoche.model.Right;
 import org.musedepoche.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Mutualisation du mock pour les *Jpa repository.
+ * 
+ * @author Martin L.
+ * @author Cyril R.
+ */
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DataDao {
 
@@ -36,7 +42,7 @@ public abstract class DataDao {
 
 	@Autowired
 	protected ISoundDao soundDao;
-	
+
 	protected int numberOfComposer;
 	protected int numberOfComposition;
 	protected int numberOfCollaboration;
@@ -61,7 +67,7 @@ public abstract class DataDao {
 		axel = composerDao.save(axel);
 		celine = composerDao.save(celine);
 		marc = composerDao.save(marc);
-		
+
 		this.numberOfComposer = 6;
 
 		/* Compositions */
@@ -82,34 +88,36 @@ public abstract class DataDao {
 		cp7 = compositionDao.save(cp7);
 
 		this.numberOfComposition = 7;
-		
+
 		/* Collaborations */
 		Collaboration col1 = new Collaboration(new Date(), new Date(), new Date(), cp1, bea, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Lorem ipsum dolor sit amet, consectetur efficitur.");
 		Collaboration col2 = new Collaboration(new Date(), new Date(), new Date(), cp1, axel, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY,
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id eros fringilla ultricies. Vestibulum efficitur neque id nibh sodales, venenatis auctor ipsum volutpat. Donec porta ullamcorper neque, quis ullamcorper lacus vehicula sodales. Aliquam in euismod magna, ac bibendum nibh. Donec et facilisis nibh. Quisque aliquam sollicitudin ornare. Cras ex.");
 		Collaboration col3 = new Collaboration(new Date(), new Date(), new Date(), cp2, marc, Status.REJECTED,
-				Right.READONLY);
+				Right.READONLY, "Nunc elementum fringilla tortor vitae luctus efficitur.");
 		Collaboration col4 = new Collaboration(new Date(), new Date(), new Date(), cp2, celine, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Fusce bibendum neque a semper maximus. Nam turpis duis.");
 		Collaboration col5 = new Collaboration(new Date(), new Date(), new Date(), cp2, jean, Status.ACCEPTED,
-				Right.WRITE);
+				Right.WRITE, "Etiam et viverra tellus. Cras quis aenean.");
 		Collaboration col6 = new Collaboration(new Date(), new Date(), new Date(), cp3, bea, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Pellentesque ut erat porttitor.");
 		Collaboration col7 = new Collaboration(new Date(), new Date(), new Date(), cp3, marc, Status.BANNED,
-				Right.READONLY);
+				Right.READONLY,
+				"Vivamus dignissim lacinia euismod. Donec venenatis magna felis, id cursus mi bibendum a. Quisque ultrices est non.");
 		Collaboration col8 = new Collaboration(new Date(), new Date(), new Date(), cp4, bea, Status.ACCEPTED,
-				Right.WRITE);
+				Right.WRITE, "CCTVVMB");
 		Collaboration col9 = new Collaboration(new Date(), new Date(), new Date(), cp5, bea, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Vestibulum sodales, sem sit amet imperdiet commodo, magna tortor faucibus arcu posuere.");
 		Collaboration col10 = new Collaboration(new Date(), new Date(), new Date(), cp5, jean, Status.BANNED,
-				Right.READONLY);
+				Right.READONLY, "Nullam ut euismod tortor. Integer tincidunt.");
 		Collaboration col11 = new Collaboration(new Date(), new Date(), new Date(), cp5, axel, Status.CANCELED,
-				Right.READONLY);
+				Right.READONLY, "Nullam faucibus quis tellus et viverra.");
 		Collaboration col12 = new Collaboration(new Date(), new Date(), new Date(), cp6, bea, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Ut purus lorem, interdum ac congue a, ultricies eu mauris.");
 		Collaboration col13 = new Collaboration(new Date(), new Date(), new Date(), cp7, jean, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Morbi nec velit placerat, rhoncus ut.");
 
 		col1 = collaborationDao.save(col1);
 		col2 = collaborationDao.save(col2);
@@ -126,7 +134,7 @@ public abstract class DataDao {
 		col13 = collaborationDao.save(col13);
 
 		this.numberOfCollaboration = 13;
-		
+
 		/* list composition by composer */
 		List<Composition> jeanCompositions = List.of(cp1, cp3);
 		List<Composition> beaCompositions = List.of(cp2);

@@ -9,6 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * Cette entité représente un message echangé entre co-collaborateurs.
  * 
@@ -18,24 +20,30 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Message {
-	
+
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(IViews.IViewDetail.class)
 	private Date sendingDate;
-	
+
 	@ManyToOne
+	@JsonView(IViews.IViewDetail.class)
 	private Composer sender;
-	
+
 	@ManyToOne
+	@JsonView(IViews.IViewDetail.class)
 	private Composition subject;
-	
+
+	@JsonView(IViews.IViewBasic.class)
 	private String text;
-	
+
 	public Message() {
 		super();
+		this.sendingDate = new Date();
 	}
 
 	public Message(Long id, Date sendingDate, Composer sender, Composition subject, String text) {
@@ -53,6 +61,10 @@ public class Message {
 		this.sender = sender;
 		this.subject = subject;
 		this.text = text;
+	}
+
+	public Message(Composer sender, Composition subject, String text) {
+		this(new Date(), sender, subject, text);
 	}
 
 	public Long getId() {
@@ -94,5 +106,5 @@ public class Message {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 }
