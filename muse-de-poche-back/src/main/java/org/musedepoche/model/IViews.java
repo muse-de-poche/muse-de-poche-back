@@ -17,4 +17,7 @@ public interface IViews {
 	
 	public static interface IViewCollaborationDetail extends IViewCollaboration , IViewDetail, IViewCollaborationComposition, IViewCollaborationComposer {}
 	
+	public static interface IViewComposition extends IViewBasic {}
+
+	public static interface IViewCompositionDetail extends IViewComposition, IViewBasic {}
 }
