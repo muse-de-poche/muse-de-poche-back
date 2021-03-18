@@ -18,24 +18,25 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Message {
-	
+
 	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date sendingDate;
-	
+
 	@ManyToOne
 	private Composer sender;
-	
+
 	@ManyToOne
 	private Composition subject;
-	
+
 	private String text;
-	
+
 	public Message() {
 		super();
+		this.sendingDate = new Date();
 	}
 
 	public Message(Long id, Date sendingDate, Composer sender, Composition subject, String text) {
@@ -53,6 +54,10 @@ public class Message {
 		this.sender = sender;
 		this.subject = subject;
 		this.text = text;
+	}
+
+	public Message(Composer sender, Composition subject, String text) {
+		this(new Date(), sender, subject, text);
 	}
 
 	public Long getId() {
@@ -94,5 +99,5 @@ public class Message {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 }
