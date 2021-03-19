@@ -71,13 +71,15 @@ public abstract class DataDao {
 		this.numberOfComposer = 6;
 
 		/* Compositions */
-		Composition cp1 = new Composition("test1", 1002, jean);
-		Composition cp2 = new Composition("test2", 658495, bea);
-		Composition cp3 = new Composition("test3", 10, jean);
-		Composition cp4 = new Composition("test4", 536, axel);
-		Composition cp5 = new Composition("test5", 485, celine);
-		Composition cp6 = new Composition("test6", 1002, marc);
-		Composition cp7 = new Composition("test7", 1, jc);
+
+		Composition cp1 = new Composition("compo1", 1002, jean);
+		Composition cp2 = new Composition("compo2", 658495, bea);
+		Composition cp3 = new Composition("compo3", 10, jean);
+		Composition cp4 = new Composition("compo4", 536, axel);
+		Composition cp5 = new Composition("compo5", 485, celine);
+		Composition cp6 = new Composition("compo6", 1002, marc);
+		Composition cp7 = new Composition("compo7", 1, jc);
+
 
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);
@@ -94,7 +96,7 @@ public abstract class DataDao {
 				Right.READONLY, "Lorem ipsum dolor sit amet, consectetur efficitur.");
 		Collaboration col2 = new Collaboration(new Date(), new Date(), new Date(), cp1, axel, Status.ACCEPTED,
 				Right.READONLY,
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id eros fringilla ultricies. Vestibulum efficitur neque id nibh sodales, venenatis auctor ipsum volutpat. Donec porta ullamcorper neque, quis ullamcorper lacus vehicula sodales. Aliquam in euismod magna, ac bibendum nibh. Donec et facilisis nibh. Quisque aliquam sollicitudin ornare. Cras ex.");
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id.");
 		Collaboration col3 = new Collaboration(new Date(), new Date(), new Date(), cp2, marc, Status.REJECTED,
 				Right.READONLY, "Nunc elementum fringilla tortor vitae luctus efficitur.");
 		Collaboration col4 = new Collaboration(new Date(), new Date(), new Date(), cp2, celine, Status.ACCEPTED,

@@ -61,9 +61,9 @@ public class CompositionController {
 
 		if (compo.isPresent()) {
 			return compo.get();
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
-
-		return null;
 	}
 	
 	/**
