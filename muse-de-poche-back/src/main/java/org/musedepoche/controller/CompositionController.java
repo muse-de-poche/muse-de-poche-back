@@ -88,6 +88,7 @@ public class CompositionController {
 	}
 
 	@PutMapping("/{id}")
+	@JsonView(IViews.IViewCompositionDetail.class)
 	public Composition update(@RequestBody Composition compo, @PathVariable Long id) {
 		if (!compositionDao.existsById(id) || !id.equals(compo.getId())) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "resource not found");

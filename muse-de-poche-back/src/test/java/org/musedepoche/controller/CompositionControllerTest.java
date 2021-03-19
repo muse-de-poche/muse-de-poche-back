@@ -2,8 +2,10 @@ package org.musedepoche.controller;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -71,11 +73,31 @@ public class CompositionControllerTest extends DataDao {
 	@Test
 	public void compositionUpdate() throws Exception {
 		Composer bea =  this.composerDao.findById(2L).get();
-		Composition compo = new Composition("compoUpdate", 50, bea);
+		Composition compo = new Composition(8L,"compoUpdate", 50, bea, null);
 		
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
 		String jsonComposer = mapper.writerWithView(IViews.IViewCompositionDetail.class).writeValueAsString(compo);
+		
+		mockMvc.perform(put("/composition/8").contentType(MediaType.APPLICATION_JSON).content(jsonComposer))
+			.andExpect(status().isOk()).andExpect(jsonPath("$.id", is(notNullValue())))
+			.andExpect(jsonPath("$.title").value("compoUpdate")).andExpect(jsonPath("$.playsNumber").value(50));
+	}
+	
+	@Test
+	public void compositionDelete() throws Exception {
+		Composer bea =  this.composerDao.findById(2L).get();
+		Composition compo = new Composition("compo9", 50, bea);
+		compo = compositionDao.save(compo);
+		
+		mockMvc.perform(delete("/composition/"+compo.getId())).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void compositionSorters() throws Exception {
+		mockMvc.perform(get("/composition/plays-number")).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		mockMvc.perform(get("/composition/created-date")).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+		mockMvc.perform(get("/composition/update-date")).andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 }
