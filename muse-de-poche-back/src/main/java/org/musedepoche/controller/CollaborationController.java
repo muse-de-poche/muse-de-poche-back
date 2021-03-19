@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import org.musedepoche.dao.ICollaborationDao;
+import org.musedepoche.dao.ICompositionDao;
 import org.musedepoche.model.Collaboration;
 import org.musedepoche.model.IViews;
 import org.musedepoche.validator.CollaborationValidator;
@@ -34,6 +35,9 @@ public class CollaborationController {
 
 	@Autowired
 	private ICollaborationDao collaborationDao;
+	
+	@Autowired
+	private ICompositionDao compositionDao;
 
 	@Autowired
 	private CollaborationValidator collaborationValidator;
@@ -46,6 +50,10 @@ public class CollaborationController {
 			String errors = result.getAllErrors().stream().map(e -> "[" + e.getCode() + "] " + e.getDefaultMessage())
 					.collect(Collectors.joining("\n"));
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors);
+		}
+		
+		if (this.compositionDao.isOwnerOf(collaboration.getComposer().getId(), collaboration.getComposition().getId())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Le compositeur [" + collaboration.getComposer().getId() + "] est le propriètaire de la composition [" + collaboration.getComposition().getId() + "]");
 		}
 
 		return this.collaborationDao.save(collaboration);

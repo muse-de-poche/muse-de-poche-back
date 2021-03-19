@@ -71,13 +71,13 @@ public abstract class DataDao {
 		this.numberOfComposer = 6;
 
 		/* Compositions */
-		Composition cp1 = new Composition(new Date(), 1002, jean);
-		Composition cp2 = new Composition(new Date(), 658495, bea);
-		Composition cp3 = new Composition(new Date(), 10, jean);
-		Composition cp4 = new Composition(new Date(), 536, axel);
-		Composition cp5 = new Composition(new Date(), 485, celine);
-		Composition cp6 = new Composition(new Date(), 1002, marc);
-		Composition cp7 = new Composition(new Date(), 1, jc);
+		Composition cp1 = new Composition("Jean1", 1002, jean);
+		Composition cp2 = new Composition("Bea1", 658495, bea);
+		Composition cp3 = new Composition("Jean2", 10, jean);
+		Composition cp4 = new Composition("Axel1", 536, axel);
+		Composition cp5 = new Composition("Celine1", 485, celine);
+		Composition cp6 = new Composition("Marc1", 1002, marc);
+		Composition cp7 = new Composition("JC1", 1, jc);
 
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);

@@ -12,8 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonView;
 
 /**
@@ -70,6 +70,7 @@ public class Collaboration {
 	private Right right;
 	
 	@Column(updatable = false)
+	@Size(max = 400)
 	@JsonView(IViews.IViewBasic.class)
 	private String text;
 
