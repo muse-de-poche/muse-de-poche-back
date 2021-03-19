@@ -90,20 +90,24 @@ public class ComposerController {
 
 		return composer;
 	}
-	
+	/*
 	@DeleteMapping("/{id}")
 	public void delete(@PathVariable Long id) {
 		if (!composerDao.existsById(id)) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
 		}
-
+		Optional<Composer> composer = composerDao.findById(id);
+		composer.get().setCollaborations(null);
+		composer.get().setCompositions(null);
+		composerDao.save(composer.get());
+		
 		composerDao.deleteById(id);
-
 		if (composerDao.existsById(id)) {
-			throw new ResponseStatusException(HttpStatus.OK);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Unable to find resource");
 		}
+		throw new ResponseStatusException(HttpStatus.OK);
 	}
-	
+	*/
 	/*
 	@PostMapping("/login")
 	@JsonView(IViews.IViewComposer.class)

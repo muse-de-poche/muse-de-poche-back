@@ -1,5 +1,6 @@
 package org.musedepoche.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public abstract class DataDao {
 	protected int numberOfMetronome;
 	protected int numberOfTrask;
 	protected int numberOfSound;
+	protected List<Composer> composers = new ArrayList();
+	protected List<Collaboration> collaborations;
+	protected List<Composition> compositions;	
 
 	@BeforeAll
 	public void init() {
@@ -211,9 +215,10 @@ public abstract class DataDao {
 		cp7.setCollaborations(cp7Collaboration);
 		cp7 = compositionDao.save(cp7);
 		
-		List<Composer> composers = List.of(jean,bea,jc,axel,celine,marc);
-		List<Collaboration> collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
-		List<Composition> compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
+		//this.composers = List.of(jean,bea,jc,axel,celine,marc);
+		composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
+		this.collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
+		this.compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
 		
 	}
 
