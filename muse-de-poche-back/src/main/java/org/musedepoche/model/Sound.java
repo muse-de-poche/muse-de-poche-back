@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * 
  * @author Lionel Rénier
@@ -18,13 +20,17 @@ public class Sound {
 
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewTrack.class)
 	private Long id;
 
+	@JsonView(IViews.IViewTrack.class)
 	private int position;
 
+	@JsonView(IViews.IViewTrack.class)
 	private String file;
 
 	@ManyToOne
+	@JsonView(IViews.IViewTrack.class)
 	private Track track;
 
 	public Sound() {
