@@ -9,8 +9,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.musedepoche.model.Collaboration;
 import org.musedepoche.model.Composer;
 import org.musedepoche.model.Composition;
+import org.musedepoche.model.Metronome;
 import org.musedepoche.model.Right;
 import org.musedepoche.model.Status;
+import org.musedepoche.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -54,12 +56,13 @@ public abstract class DataDao {
 	@BeforeAll
 	public void init() {
 		/* Composers */
-		Composer jean = new Composer("Jmarc","Jmarc123","Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
-		Composer bea = new Composer("Btyne","Btyne123","Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
-		Composer jc = new Composer("Jvd","Jvd123","jc", "vd", "France", "jc.vd@gmail.com", new Date());
-		Composer axel = new Composer("Atune","Atune123","Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
-		Composer celine = new Composer("Cpierre","Cpierre123","Celine", "Pierre", "France", "celine.pierre@gmail.com", new Date());
-		Composer marc = new Composer("Mjean","Mjean123","Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
+		Composer jean = new Composer("Jmarc", "Jmarc123", "Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
+		Composer bea = new Composer("Btyne", "Btyne123", "Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
+		Composer jc = new Composer("Jvd", "Jvd123", "jc", "vd", "France", "jc.vd@gmail.com", new Date());
+		Composer axel = new Composer("Atune", "Atune123", "Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
+		Composer celine = new Composer("Cpierre", "Cpierre123", "Celine", "Pierre", "France", "celine.pierre@gmail.com",
+				new Date());
+		Composer marc = new Composer("Mjean", "Mjean123", "Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
 
 		jean = composerDao.save(jean);
 		bea = composerDao.save(bea);
@@ -79,7 +82,6 @@ public abstract class DataDao {
 		Composition cp5 = new Composition("compo5", 485, celine);
 		Composition cp6 = new Composition("compo6", 1002, marc);
 		Composition cp7 = new Composition("compo7", 1, jc);
-
 
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);
@@ -163,6 +165,41 @@ public abstract class DataDao {
 		List<Collaboration> cp5Collaboration = List.of(col9, col10, col11);
 		List<Collaboration> cp6Collaboration = List.of(col12);
 		List<Collaboration> cp7Collaboration = List.of(col13);
+		
+		Metronome met1 = new Metronome("4/4", 1, 120);
+		Metronome met2 = new Metronome("5/4", 3, 90);
+		Metronome met3 = new Metronome("6/8", 2, 160);
+		Metronome met4 = new Metronome("12/8", 1, 100);
+
+		met1 = metronomeDao.save(met1);
+		met2 = metronomeDao.save(met2);
+		met3 = metronomeDao.save(met3);
+		met4 = metronomeDao.save(met4);
+		
+		cp1.setMetronome(met1);
+		cp2.setMetronome(met2);
+		cp5.setMetronome(met3);
+		cp7.setMetronome(met4);
+		
+		Track tr1 = new Track(0, "guitare", null, cp1);
+		Track tr2 = new Track(0, "basse", null, cp1);
+		Track tr3 = new Track(0, "voix lead", null, cp1);
+		Track tr4 = new Track(0, "choeurs", null, cp1);
+		Track tr5 = new Track(0, "guitare folk", null, cp2);
+		Track tr6 = new Track(0, "triangle", null, cp2);
+		Track tr7 = new Track(0, "guimbarde", null, cp3);
+		Track tr8 = new Track(0, "ukulélé", null, cp5);
+		Track tr9 = new Track(0, "aisselle", null, cp5);
+
+		tr1 = trackDao.save(tr1);
+		tr2 = trackDao.save(tr2);
+		tr3 = trackDao.save(tr3);
+		tr4 = trackDao.save(tr4);
+		tr5 = trackDao.save(tr5);
+		tr6 = trackDao.save(tr6);
+		tr7 = trackDao.save(tr7);
+		tr8 = trackDao.save(tr8);
+		tr9 = trackDao.save(tr9);
 
 		/* update composer with list<composition> and list<collaboration> */
 		jean.setCompositions(jeanCompositions);
@@ -210,11 +247,12 @@ public abstract class DataDao {
 
 		cp7.setCollaborations(cp7Collaboration);
 		cp7 = compositionDao.save(cp7);
-		
-		List<Composer> composers = List.of(jean,bea,jc,axel,celine,marc);
-		List<Collaboration> collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
-		List<Composition> compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
-		
+
+		List<Composer> composers = List.of(jean, bea, jc, axel, celine, marc);
+		List<Collaboration> collaborations = List.of(col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11,
+				col12, col13);
+		List<Composition> compositions = List.of(cp1, cp2, cp3, cp4, cp5, cp6, cp7);
+
 	}
 
 }

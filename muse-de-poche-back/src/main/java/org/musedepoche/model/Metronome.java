@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * 
  * @author Lionel Rénier
@@ -18,12 +20,16 @@ public class Metronome {
 
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewCompositionDetail.class)
 	private Long id;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	private String metric;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	private int clickType;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	private int bpm;
 
 	public Metronome() {

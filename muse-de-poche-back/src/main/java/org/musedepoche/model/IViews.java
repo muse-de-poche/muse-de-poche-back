@@ -24,5 +24,7 @@ public interface IViews {
 	public static interface IViewMessage extends IViewBasic {}
 
 	public static interface IViewMessageDetail extends IViewMessage, IViewDetail {}
+	
+	public static interface IViewTrack extends IViewBasic {}
 
 }
