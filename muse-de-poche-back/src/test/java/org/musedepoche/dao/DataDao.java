@@ -1,5 +1,6 @@
 package org.musedepoche.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,6 +51,9 @@ public abstract class DataDao {
 	protected int numberOfMetronome;
 	protected int numberOfTrask;
 	protected int numberOfSound;
+	protected List<Composer> composers = new ArrayList();
+	protected List<Collaboration> collaborations;
+	protected List<Composition> compositions;	
 
 	@BeforeAll
 	public void init() {
@@ -94,7 +98,7 @@ public abstract class DataDao {
 				Right.READONLY, "Lorem ipsum dolor sit amet, consectetur efficitur.");
 		Collaboration col2 = new Collaboration(new Date(), new Date(), new Date(), cp1, axel, Status.ACCEPTED,
 				Right.READONLY,
-				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id eros fringilla ultricies. Vestibulum efficitur neque id nibh sodales, venenatis auctor ipsum volutpat. Donec porta ullamcorper neque, quis ullamcorper lacus vehicula sodales. Aliquam in euismod magna, ac bibendum nibh. Donec et facilisis nibh. Quisque aliquam sollicitudin ornare. Cras ex.");
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id.");
 		Collaboration col3 = new Collaboration(new Date(), new Date(), new Date(), cp2, marc, Status.REJECTED,
 				Right.READONLY, "Nunc elementum fringilla tortor vitae luctus efficitur.");
 		Collaboration col4 = new Collaboration(new Date(), new Date(), new Date(), cp2, celine, Status.ACCEPTED,
@@ -165,49 +169,55 @@ public abstract class DataDao {
 		/* update composer with list<composition> and list<collaboration> */
 		jean.setCompositions(jeanCompositions);
 		jean.setCollaborations(jeanCollaboration);
-		composerDao.save(jean);
+		jean = composerDao.save(jean);
 
 		bea.setCompositions(beaCompositions);
 		bea.setCollaborations(beaCollaboration);
-		composerDao.save(bea);
+		bea = composerDao.save(bea);
 
 		jc.setCompositions(jcCompositions);
 		jc.setCollaborations(jcCollaboration);
-		composerDao.save(jc);
+		jc = composerDao.save(jc);
 
 		axel.setCompositions(axelCompositions);
 		axel.setCollaborations(axelCollaboration);
-		composerDao.save(axel);
+		axel = composerDao.save(axel);
 
 		celine.setCompositions(celineCompositions);
 		celine.setCollaborations(celineCollaboration);
-		composerDao.save(celine);
+		celine = composerDao.save(celine);
 
 		marc.setCompositions(marcCompositions);
 		marc.setCollaborations(marcCollaboration);
-		composerDao.save(marc);
+		marc = composerDao.save(marc);
 
 		/* update composition with list<collaboration> */
 		cp1.setCollaborations(cp1Collaboration);
-		compositionDao.save(cp1);
+		cp1 = compositionDao.save(cp1);
 
 		cp2.setCollaborations(cp2Collaboration);
-		compositionDao.save(cp2);
+		cp2 = compositionDao.save(cp2);
 
 		cp3.setCollaborations(cp3Collaboration);
-		compositionDao.save(cp3);
+		cp3 = compositionDao.save(cp3);
 
 		cp4.setCollaborations(cp4Collaboration);
-		compositionDao.save(cp4);
+		cp4 = compositionDao.save(cp4);
 
 		cp5.setCollaborations(cp5Collaboration);
-		compositionDao.save(cp5);
+		cp5 = compositionDao.save(cp5);
 
 		cp6.setCollaborations(cp6Collaboration);
-		compositionDao.save(cp6);
+		cp6 = compositionDao.save(cp6);
 
 		cp7.setCollaborations(cp7Collaboration);
-		compositionDao.save(cp7);
+		cp7 = compositionDao.save(cp7);
+		
+		//this.composers = List.of(jean,bea,jc,axel,celine,marc);
+		composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
+		this.collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
+		this.compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
+		
 	}
 
 }
