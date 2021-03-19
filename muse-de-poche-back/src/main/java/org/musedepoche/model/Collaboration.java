@@ -8,6 +8,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,10 +33,12 @@ public class Collaboration {
 	
 	@Id
 	@GeneratedValue
+	@Column(updatable = false)
 	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(updatable = false)
 	@JsonView(IViews.IViewBasic.class)
 	private Date demandDate;
 
@@ -48,23 +51,26 @@ public class Collaboration {
 	private Date lastUpdate;
 
 	@ManyToOne
+	@JoinColumn(updatable = false)
 	@JsonView(IViews.IViewCollaborationComposition.class)
 	private Composition composition;
 
 	@ManyToOne
+	@JoinColumn(updatable = false)
 	@JsonView(IViews.IViewCollaborationComposer.class)
 	private Composer composer;
 
 	@Enumerated(EnumType.STRING)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewBasic.class)
 	private Status status;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "rights")
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewBasic.class)
 	private Right right;
 	
-	@JsonView(IViews.IViewDetail.class)
+	@Column(updatable = false)
+	@JsonView(IViews.IViewBasic.class)
 	private String text;
 
 	public Collaboration() {
