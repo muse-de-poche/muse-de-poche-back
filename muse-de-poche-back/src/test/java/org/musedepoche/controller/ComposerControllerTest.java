@@ -16,11 +16,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.musedepoche.dao.DataDao;
 import org.musedepoche.model.Composer;
+import org.musedepoche.model.IViews;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootTest
@@ -34,12 +37,17 @@ public class ComposerControllerTest extends DataDao {
 	public void composerGetAll() throws Exception {
 		mockMvc.perform(get("/composer")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$.length()").value(numberOfComposer));
+				.andExpect(jsonPath("$.length()").value(composers.size()));
 	}
 
 	@Test
 	public void composerGetById() throws Exception {
-		mockMvc.perform(get("/composer/2")).andExpect(status().isOk())
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+		String jsonComposer = mapper.writerWithView(IViews.IViewComposer.class).writeValueAsString(composers.get(1).getId());
+		
+		mockMvc.perform(get("/composer/"+jsonComposer)).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.id").value(2))
 				.andExpect(jsonPath("$.pseudo").value("Btyne")).andExpect(jsonPath("$.password").value("Btyne123"))
 				.andExpect(jsonPath("$.lastname").value("Bea")).andExpect(jsonPath("$.firstname").value("Tyne"))
@@ -49,7 +57,13 @@ public class ComposerControllerTest extends DataDao {
 
 	@Test
 	public void composerGetByIdDetail() throws Exception {
-		mockMvc.perform(get("/composer/2/detail")).andExpect(status().isOk())
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+		String jsonComposer = mapper.writerWithView(IViews.IViewComposerDetail.class).writeValueAsString(composers.get(1).getId());
+		
+		
+		mockMvc.perform(get("/composer/"+jsonComposer+"/detail")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.id").value(2))
 				.andExpect(jsonPath("$.pseudo").value("Btyne")).andExpect(jsonPath("$.password").value("Btyne123"))
 				.andExpect(jsonPath("$.lastname").value("Bea")).andExpect(jsonPath("$.firstname").value("Tyne"))
@@ -59,7 +73,7 @@ public class ComposerControllerTest extends DataDao {
 
 	@Test
 	public void composerGetByPseudo() throws Exception {
-		mockMvc.perform(get("/composer/Atune/pseudo")).andExpect(status().isOk())
+		mockMvc.perform(get("/composer/"+composers.get(3).getPseudo()+"/pseudo")).andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON)).andExpect(jsonPath("$.id").value(4))
 				.andExpect(jsonPath("$.pseudo").value("Atune")).andExpect(jsonPath("$.password").value("Atune123"))
 				.andExpect(jsonPath("$.lastname").value("Axel")).andExpect(jsonPath("$.firstname").value("Tune"))
@@ -81,7 +95,7 @@ public class ComposerControllerTest extends DataDao {
 				.andExpect(jsonPath("$.lastname").value("Laure")).andExpect(jsonPath("$.firstname").value("Piet"))
 				.andExpect(jsonPath("$.country").value("France"))
 				.andExpect(jsonPath("$.email").value("laure.piet@gmail.com"));
-		super.numberOfComposer++;
+		composers.add(composer);
 	}
 
 	@Test
@@ -99,13 +113,18 @@ public class ComposerControllerTest extends DataDao {
 				.andExpect(jsonPath("$.country").value("Belgique"))
 				.andExpect(jsonPath("$.email").value("celine.pierre@gmail.com"));
 	}
-
+/*
 	@Test
 	public void composerDelete() throws Exception {
-		Composer composer = new Composer("Cpierre", "Cpierre123", "Celine", "Pierre", "Belgique",
-				"celine.pierre@gmail.com", new Date());
-		composer = composerDao.save(composer);
-		mockMvc.perform(delete("/composer/"+composer.getId())).andExpect(status().isOk());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
+		String jsonComposer = mapper.writerWithView(IViews.IViewComposerDetail.class).writeValueAsString(composers.get(5).getId());
+		
+		mockMvc.perform(delete("/composer/"+jsonComposer)).andExpect(status().isOk());
 
 	}
+	
+*/
+
 }
