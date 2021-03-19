@@ -71,13 +71,13 @@ public abstract class DataDao {
 		this.numberOfComposer = 6;
 
 		/* Compositions */
-		Composition cp1 = new Composition(new Date(), 1002, jean);
-		Composition cp2 = new Composition(new Date(), 658495, bea);
-		Composition cp3 = new Composition(new Date(), 10, jean);
-		Composition cp4 = new Composition(new Date(), 536, axel);
-		Composition cp5 = new Composition(new Date(), 485, celine);
-		Composition cp6 = new Composition(new Date(), 1002, marc);
-		Composition cp7 = new Composition(new Date(), 1, jc);
+		Composition cp1 = new Composition("test1", 1002, jean);
+		Composition cp2 = new Composition("test2", 658495, bea);
+		Composition cp3 = new Composition("test3", 10, jean);
+		Composition cp4 = new Composition("test4", 536, axel);
+		Composition cp5 = new Composition("test5", 485, celine);
+		Composition cp6 = new Composition("test6", 1002, marc);
+		Composition cp7 = new Composition("test7", 1, jc);
 
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);
@@ -165,49 +165,54 @@ public abstract class DataDao {
 		/* update composer with list<composition> and list<collaboration> */
 		jean.setCompositions(jeanCompositions);
 		jean.setCollaborations(jeanCollaboration);
-		composerDao.save(jean);
+		jean = composerDao.save(jean);
 
 		bea.setCompositions(beaCompositions);
 		bea.setCollaborations(beaCollaboration);
-		composerDao.save(bea);
+		bea = composerDao.save(bea);
 
 		jc.setCompositions(jcCompositions);
 		jc.setCollaborations(jcCollaboration);
-		composerDao.save(jc);
+		jc = composerDao.save(jc);
 
 		axel.setCompositions(axelCompositions);
 		axel.setCollaborations(axelCollaboration);
-		composerDao.save(axel);
+		axel = composerDao.save(axel);
 
 		celine.setCompositions(celineCompositions);
 		celine.setCollaborations(celineCollaboration);
-		composerDao.save(celine);
+		celine = composerDao.save(celine);
 
 		marc.setCompositions(marcCompositions);
 		marc.setCollaborations(marcCollaboration);
-		composerDao.save(marc);
+		marc = composerDao.save(marc);
 
 		/* update composition with list<collaboration> */
 		cp1.setCollaborations(cp1Collaboration);
-		compositionDao.save(cp1);
+		cp1 = compositionDao.save(cp1);
 
 		cp2.setCollaborations(cp2Collaboration);
-		compositionDao.save(cp2);
+		cp2 = compositionDao.save(cp2);
 
 		cp3.setCollaborations(cp3Collaboration);
-		compositionDao.save(cp3);
+		cp3 = compositionDao.save(cp3);
 
 		cp4.setCollaborations(cp4Collaboration);
-		compositionDao.save(cp4);
+		cp4 = compositionDao.save(cp4);
 
 		cp5.setCollaborations(cp5Collaboration);
-		compositionDao.save(cp5);
+		cp5 = compositionDao.save(cp5);
 
 		cp6.setCollaborations(cp6Collaboration);
-		compositionDao.save(cp6);
+		cp6 = compositionDao.save(cp6);
 
 		cp7.setCollaborations(cp7Collaboration);
-		compositionDao.save(cp7);
+		cp7 = compositionDao.save(cp7);
+		
+		List<Composer> composers = List.of(jean,bea,jc,axel,celine,marc);
+		List<Collaboration> collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
+		List<Composition> compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
+		
 	}
 
 }
