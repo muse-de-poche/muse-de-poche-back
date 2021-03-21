@@ -15,7 +15,11 @@ public interface IViews {
 
 	public static interface IViewCollaboration extends IViewBasic {}
 	
-	public static interface IViewCollaborationDetail extends IViewCollaboration , IViewDetail, IViewCollaborationComposition, IViewCollaborationComposer {}
+	public static interface IViewCollaborationDetail extends IViewCollaboration, IViewDetail, IViewCollaborationComposition, IViewCollaborationComposer {}
+	
+	public static interface IViewCollaborationByComposer extends IViewCollaboration, IViewCollaborationComposition {}
+	
+	public static interface IViewCollaborationByComposition extends IViewCollaboration, IViewCollaborationComposer {}
 	
 	public static interface IViewComposition extends IViewBasic {}
 

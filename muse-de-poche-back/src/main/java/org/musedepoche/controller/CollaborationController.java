@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.musedepoche.dao.ICollaborationDao;
 import org.musedepoche.dao.ICompositionDao;
 import org.musedepoche.model.Collaboration;
+import org.musedepoche.model.Composition;
 import org.musedepoche.model.IViews;
 import org.musedepoche.validator.CollaborationValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,7 @@ public class CollaborationController {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors);
 		}
 		
+		/* Ne doit pas le propriètaire */
 		if (this.compositionDao.isOwnerOf(collaboration.getComposer().getId(), collaboration.getComposition().getId())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Le compositeur [" + collaboration.getComposer().getId() + "] est le propriètaire de la composition [" + collaboration.getComposition().getId() + "]");
 		}
@@ -85,17 +87,9 @@ public class CollaborationController {
 	
 	@PutMapping("/{id}")
 	@JsonView(IViews.IViewCollaborationDetail.class)
-	public Collaboration update(@Valid @PathVariable Long id, @RequestBody Collaboration collaboration, BindingResult result) {
+	public Collaboration update(@PathVariable Long id, @RequestBody Collaboration collaboration) {
 		if (!this.collaborationDao.existsById(id) || !id.equals(collaboration.getId())) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
-		}
-
-		this.collaborationValidator.validate(collaboration, result);
-
-		if (result.hasErrors()) {
-			String errors = result.getAllErrors().stream().map(e -> "[" + e.getCode() + "] " + e.getDefaultMessage())
-					.collect(Collectors.joining("\n"));
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, errors);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "[" + id + "] not exist");
 		}
 
 		this.collaborationDao.save(collaboration);
@@ -104,13 +98,13 @@ public class CollaborationController {
 	}
 	
 	@GetMapping("/byComposer/{id}")
-	@JsonView(IViews.IViewCollaborationComposition.class)
+	@JsonView(IViews.IViewCollaborationByComposer.class)
 	public List<Collaboration> byComposer(@PathVariable Long id) {
 		return this.collaborationDao.findByComposer(id);
 	}
 
 	@GetMapping("/byComposition/{id}")
-	@JsonView(IViews.IViewCollaborationComposer.class)
+	@JsonView(IViews.IViewCollaborationByComposition.class)
 	public List<Collaboration> byComposition(@PathVariable Long id) {
 		return this.collaborationDao.findByComposition(id);
 	}

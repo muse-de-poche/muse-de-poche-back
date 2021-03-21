@@ -24,7 +24,7 @@ public interface ICollaborationDao extends JpaRepository<Collaboration, Long> {
 	 * 
 	 * @author Cyril R.
 	 */
-	@Query("select c from Collaboration c where c.composition = :id")
+	@Query("select c from Collaboration c where c.composition.id = :id")
 	List<Collaboration> findByComposition(@Param("id") Long id);
 	
 	/**
@@ -35,7 +35,7 @@ public interface ICollaborationDao extends JpaRepository<Collaboration, Long> {
 	 * 
 	 * @author Cyril R.
 	 */
-	@Query("select c from Collaboration c where c.composer = :id")
+	@Query("select c from Collaboration c where c.composer.id = :id")
 	List<Collaboration> findByComposer(@Param("id") Long id);
 	
 	/**
