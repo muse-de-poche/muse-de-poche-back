@@ -10,6 +10,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.musedepoche.model.Collaboration;
 import org.musedepoche.model.Composer;
 import org.musedepoche.model.Composition;
+import org.musedepoche.model.Message;
 import org.musedepoche.model.Right;
 import org.musedepoche.model.Status;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author Martin L.
  * @author Cyril R.
+ * @author Lionel R.
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DataDao {
@@ -53,7 +55,8 @@ public abstract class DataDao {
 	protected int numberOfSound;
 	protected List<Composer> composers = new ArrayList<Composer>();
 	protected List<Collaboration> collaborations = new ArrayList<Collaboration>();
-	protected List<Composition> compositions = new ArrayList<Composition>();	
+	protected List<Composition> compositions = new ArrayList<Composition>();
+	protected List<Message> messages = new ArrayList<Message>();
 
 	@BeforeAll
 	public void init() {
@@ -213,11 +216,25 @@ public abstract class DataDao {
 		cp7.setCollaborations(cp7Collaboration);
 		cp7 = compositionDao.save(cp7);
 		
-		//this.composers = List.of(jean,bea,jc,axel,celine,marc);
+		/* Messages */
+		/* marc, celine, jean, bea */
+		Message mcp2_marc_1 = new Message(marc, cp2, "KIKOUUU !");
+		Message mcp2_celine_1 = new Message(celine, cp2, "KIKOUUU !*? SRX !");
+		Message mcp2_jean_1 = new Message(celine, cp2, "STOP RAGE Céline");
+		Message mcp2_bea_1 = new Message(bea, cp2, "Merci à tous pour votre implication ...");
+		Message mcp2_bea_2 = new Message(bea, cp2, "SInon j'ai ajouté de la cornemuse");
+		
+		mcp2_marc_1 = this.messageDao.save(mcp2_marc_1);
+		mcp2_celine_1 = this.messageDao.save(mcp2_celine_1);
+		mcp2_jean_1 = this.messageDao.save(mcp2_jean_1);
+		mcp2_bea_1 = this.messageDao.save(mcp2_bea_1);
+		mcp2_bea_2 = this.messageDao.save(mcp2_bea_2);
+		
+		/* Lists */
 		this.composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
 		this.collaborations.addAll(List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13));
 		this.compositions.addAll(List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7));
-		
+		this.messages.addAll(List.of(mcp2_marc_1, mcp2_celine_1, mcp2_jean_1, mcp2_bea_1, mcp2_bea_2));
 	}
 
 }

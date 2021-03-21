@@ -36,12 +36,12 @@ public class Message {
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewWithComposer.class)
 	private Composer sender;
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewWithComposition.class)
 	private Composition subject;
 
 	@Size(max = 400)

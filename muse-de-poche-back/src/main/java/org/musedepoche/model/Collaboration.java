@@ -52,12 +52,12 @@ public class Collaboration {
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewCollaborationComposition.class)
+	@JsonView(IViews.IViewWithComposition.class)
 	private Composition composition;
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewCollaborationComposer.class)
+	@JsonView(IViews.IViewWithComposer.class)
 	private Composer composer;
 
 	@Enumerated(EnumType.STRING)

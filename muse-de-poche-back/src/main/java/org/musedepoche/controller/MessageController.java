@@ -56,11 +56,11 @@ public class MessageController {
 	public Message simple(@PathVariable Long id) {
 		Optional<Message> message = this.messageDao.findById(id);
 
-		if (message.isPresent()) {
-			return message.get();
-		} else {
+		if (message.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "[" + id + "] not exist");
 		}
+		
+		return message.get();
 	}
 	
 	@GetMapping("/{id}/detail")
@@ -68,11 +68,11 @@ public class MessageController {
 	public Message detail(@PathVariable Long id) {
 		Optional<Message> message = this.messageDao.findById(id);
 
-		if (message.isPresent()) {
-			return message.get();
-		} else {
+		if (message.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "[" + id + "] not exist");
 		}
+		
+		return message.get();
 	}
 	
 	@PutMapping("/{id}")
@@ -96,13 +96,13 @@ public class MessageController {
 	}
 	
 	@GetMapping("/bySender/{id}")
-	@JsonView(IViews.IViewMessageDetail.class)
+	@JsonView(IViews.IViewMessageByComposer.class)
 	public List<Message> byComposer(@PathVariable Long id) {
 		return this.messageDao.findBySender(id);
 	}
 
 	@GetMapping("/bySubject/{id}")
-	@JsonView(IViews.IViewMessageDetail.class)
+	@JsonView(IViews.IViewMessageByComposition.class)
 	public List<Message> byComposition(@PathVariable Long id) {
 		return this.messageDao.findBySubject(id);
 	}

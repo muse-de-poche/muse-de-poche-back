@@ -104,7 +104,7 @@ public class CollaborationControllerTest extends DataDao {
 	}
 
 	@Test /* Create */
-	public void shouldGetCollaborationWithoutError() throws Exception {
+	public void shouldCreateCollaborationWithoutError() throws Exception {
 		Composer composer = super.composers.get(1); // Bea
 		Composition composition = super.compositions.get(6); // Composition's JC
 
