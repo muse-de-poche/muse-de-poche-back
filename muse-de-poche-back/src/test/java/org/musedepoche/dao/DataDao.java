@@ -94,14 +94,6 @@ public abstract class DataDao {
 		Composition cp6 = new Composition("Marc1", 1002, marc);
 		Composition cp7 = new Composition("JC1", 1, jc);
 
-		Composition cp1 = new Composition("compo1", 1002, jean);
-		Composition cp2 = new Composition("compo2", 658495, bea);
-		Composition cp3 = new Composition("compo3", 10, jean);
-		Composition cp4 = new Composition("compo4", 536, axel);
-		Composition cp5 = new Composition("compo5", 485, celine);
-		Composition cp6 = new Composition("compo6", 1002, marc);
-		Composition cp7 = new Composition("compo7", 1, jc);
-
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);
 		cp3 = compositionDao.save(cp3);
