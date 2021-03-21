@@ -3,6 +3,7 @@ package org.musedepoche.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -10,8 +11,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * 
- * @author Lionel Rénier
- * Sound is a component which defines an audio source, its file path, and its position on its parent's track
+ * @author Lionel Rénier Sound is a component which defines an audio source, its
+ *         file path, and its position on its parent's track
  */
 
 @Entity
@@ -26,11 +27,15 @@ public class Sound {
 	@JsonView(IViews.IViewTrack.class)
 	private int position;
 
+	@Lob
+	@JsonView(IViews.IViewTrackDetail.class)
+	private byte[] file;
+
 	@JsonView(IViews.IViewTrack.class)
-	private String file;
+	private String name;
 
 	@ManyToOne
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewTrackDetail.class)
 	private Track track;
 
 	public Sound() {
@@ -39,11 +44,12 @@ public class Sound {
 
 	/**
 	 * Sound constructor
-	 * @param int position (position on the track)
+	 * 
+	 * @param int    position (position on the track)
 	 * @param String file (path of the sound source)
-	 * @param Track track (parent's Track) 
+	 * @param Track  track (parent's Track)
 	 */
-	public Sound(int position, String file, Track track) {
+	public Sound(int position, byte[] file, Track track) {
 		super();
 		this.position = position;
 		this.file = file;
@@ -52,12 +58,13 @@ public class Sound {
 
 	/**
 	 * Sound constructor
+	 * 
 	 * @param id
-	 * @param int position (position on the track)
+	 * @param int    position (position on the track)
 	 * @param String file (path of the sound source)
-	 * @param Track track (parent's Track) 
+	 * @param Track  track (parent's Track)
 	 */
-	public Sound(Long id, int position, String file, Track track) {
+	public Sound(Long id, int position, byte[] file, Track track) {
 		super();
 		this.id = id;
 		this.position = position;
@@ -81,12 +88,20 @@ public class Sound {
 		this.position = position;
 	}
 
-	public String getFile() {
+	public byte[] getFile() {
 		return file;
 	}
 
-	public void setFile(String file) {
+	public void setFile(byte[] file) {
 		this.file = file;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Track getTrack() {
@@ -95,11 +110,6 @@ public class Sound {
 
 	public void setTrack(Track track) {
 		this.track = track;
-	}
-
-	@Override
-	public String toString() {
-		return "Sound [id=" + id + ", position=" + position + ", file=" + file + ", track=" + track + "]";
 	}
 
 }

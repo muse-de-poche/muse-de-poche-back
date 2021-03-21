@@ -33,7 +33,7 @@ public class TrackController {
 	private ICompositionDao compositionDao;
 	
 	@GetMapping("/{id}")
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewTrack.class)
 	public Track findTrackById(@PathVariable Long id) {
 		Optional<Track> track = trackDao.findById(id);
 

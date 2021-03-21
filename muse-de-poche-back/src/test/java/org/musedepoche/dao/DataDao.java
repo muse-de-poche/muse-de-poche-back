@@ -1,5 +1,9 @@
 package org.musedepoche.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +17,7 @@ import org.musedepoche.model.Composition;
 import org.musedepoche.model.Metronome;
 import org.musedepoche.model.Message;
 import org.musedepoche.model.Right;
+import org.musedepoche.model.Sound;
 import org.musedepoche.model.Status;
 import org.musedepoche.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -261,6 +266,16 @@ public abstract class DataDao {
 
 		cp7.setCollaborations(cp7Collaboration);
 		cp7 = compositionDao.save(cp7);
+		
+		Path path = Paths.get("src/test/resources/sample.wav");
+		Sound sound = null;
+		try {
+			sound = new Sound(0,Files.readAllBytes(path), tr1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sound = soundDao.save(sound);
 
 		
 		/* Messages */

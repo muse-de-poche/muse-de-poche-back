@@ -30,7 +30,11 @@ public interface IViews {
 	public static interface IViewMessageDetail extends IViewMessage, IViewDetail, IViewWithComposition, IViewWithComposer {}
 
 	public static interface IViewMessageByComposer extends IViewMessage, IViewWithComposition {}
+
+	public static interface IViewTrack extends IViewBasic {}
 	
+	public static interface IViewTrackDetail extends IViewTrack {}
+
 	public static interface IViewMessageByComposition extends IViewMessage, IViewWithComposer {}
 
 }
