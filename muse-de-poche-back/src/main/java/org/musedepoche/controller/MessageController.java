@@ -79,7 +79,7 @@ public class MessageController {
 	@JsonView(IViews.IViewMessageDetail.class)
 	public Message update(@Valid @PathVariable Long id, @RequestBody Message message, BindingResult result) {
 		if (!this.messageDao.existsById(id) || !id.equals(message.getId())) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "[" + id + "] not exist");
 		}
 
 		this.messageValidator.validate(message, result);

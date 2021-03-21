@@ -126,7 +126,7 @@ public class MessageControllerTest extends DataDao {
 
 	@Test /* GetById */
 	public void shouldGetMessageById() throws Exception {
-		Message message = super.messages.get(0);
+		Message message = super.messages.get(2);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
@@ -150,7 +150,7 @@ public class MessageControllerTest extends DataDao {
 
 	@Test /* GetDetailById */
 	public void shouldGetMessageDetailById() throws Exception {
-		Message message = super.messages.get(0);
+		Message message = super.messages.get(4);
 		
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.disable(MapperFeature.DEFAULT_VIEW_INCLUSION);
@@ -204,6 +204,19 @@ public class MessageControllerTest extends DataDao {
 
 		mockMvc.perform(put("/messages/"+Long.MAX_VALUE).contentType(MediaType.APPLICATION_JSON).content(jsonMsg))
 				.andExpect(status().isNotFound());
+	}
+	
+	@Test /* Update */
+	public void shouldGetErrorIfTextIsNullWhenUpdate() throws Exception {
+		Message message = super.messages.get(0);
+		message.setSendingDate(new Date());
+		message.setText(null);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonMsg = mapper.writerWithView(IViews.IViewMessage.class).writeValueAsString(message);
+
+		mockMvc.perform(put("/messages/"+message.getId()).contentType(MediaType.APPLICATION_JSON).content(jsonMsg))
+				.andExpect(status().isBadRequest());
 	}
 	
 	@Test /* bySender */

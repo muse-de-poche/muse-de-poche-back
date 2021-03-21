@@ -276,7 +276,7 @@ public abstract class DataDao {
 		Message mcp2_celine_1 = new Message(celine, cp2, "KIKOUUU !*? SRX !");
 		Message mcp2_jean_1 = new Message(celine, cp2, "STOP RAGE Céline");
 		Message mcp2_bea_1 = new Message(bea, cp2, "Merci à tous pour votre implication ...");
-		Message mcp2_bea_2 = new Message(bea, cp2, "SInon j'ai ajouté de la cornemuse");
+		Message mcp2_bea_2 = new Message(bea, cp2, "Sinon j'ai ajouté de la cornemuse");
 		
 		mcp2_marc_1 = this.messageDao.save(mcp2_marc_1);
 		mcp2_celine_1 = this.messageDao.save(mcp2_celine_1);
