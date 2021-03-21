@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -35,14 +36,15 @@ public class Message {
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewWithComposer.class)
 	private Composer sender;
 
 	@ManyToOne
 	@JoinColumn(updatable = false)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewWithComposition.class)
 	private Composition subject;
 
+	@Size(max = 400)
 	@JsonView(IViews.IViewBasic.class)
 	private String text;
 
