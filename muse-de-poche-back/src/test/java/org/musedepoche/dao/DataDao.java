@@ -11,6 +11,7 @@ import org.musedepoche.model.Collaboration;
 import org.musedepoche.model.Composer;
 import org.musedepoche.model.Composition;
 import org.musedepoche.model.Metronome;
+import org.musedepoche.model.Message;
 import org.musedepoche.model.Right;
 import org.musedepoche.model.Status;
 import org.musedepoche.model.Track;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author Martin L.
  * @author Cyril R.
+ * @author Lionel R.
  */
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DataDao {
@@ -53,9 +55,10 @@ public abstract class DataDao {
 	protected int numberOfMetronome;
 	protected int numberOfTrask;
 	protected int numberOfSound;
-	protected List<Composer> composers = new ArrayList();
-	protected List<Collaboration> collaborations;
-	protected List<Composition> compositions;	
+	protected List<Composer> composers = new ArrayList<Composer>();
+	protected List<Collaboration> collaborations = new ArrayList<Collaboration>();
+	protected List<Composition> compositions = new ArrayList<Composition>();
+	protected List<Message> messages = new ArrayList<Message>();
 
 	@BeforeAll
 	public void init() {
@@ -78,6 +81,13 @@ public abstract class DataDao {
 		this.numberOfComposer = 6;
 
 		/* Compositions */
+		Composition cp1 = new Composition("Jean1", 1002, jean);
+		Composition cp2 = new Composition("Bea1", 658495, bea);
+		Composition cp3 = new Composition("Jean2", 10, jean);
+		Composition cp4 = new Composition("Axel1", 536, axel);
+		Composition cp5 = new Composition("Celine1", 485, celine);
+		Composition cp6 = new Composition("Marc1", 1002, marc);
+		Composition cp7 = new Composition("JC1", 1, jc);
 
 		Composition cp1 = new Composition("compo1", 1002, jean);
 		Composition cp2 = new Composition("compo2", 658495, bea);
@@ -253,11 +263,25 @@ public abstract class DataDao {
 		cp7 = compositionDao.save(cp7);
 
 		
-		//this.composers = List.of(jean,bea,jc,axel,celine,marc);
-		composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
-		this.collaborations = List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13);
-		this.compositions = List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7);
+		/* Messages */
+		/* marc, celine, jean, bea */
+		Message mcp2_marc_1 = new Message(marc, cp2, "KIKOUUU !");
+		Message mcp2_celine_1 = new Message(celine, cp2, "KIKOUUU !*? SRX !");
+		Message mcp2_jean_1 = new Message(celine, cp2, "STOP RAGE Céline");
+		Message mcp2_bea_1 = new Message(bea, cp2, "Merci à tous pour votre implication ...");
+		Message mcp2_bea_2 = new Message(bea, cp2, "SInon j'ai ajouté de la cornemuse");
 		
+		mcp2_marc_1 = this.messageDao.save(mcp2_marc_1);
+		mcp2_celine_1 = this.messageDao.save(mcp2_celine_1);
+		mcp2_jean_1 = this.messageDao.save(mcp2_jean_1);
+		mcp2_bea_1 = this.messageDao.save(mcp2_bea_1);
+		mcp2_bea_2 = this.messageDao.save(mcp2_bea_2);
+		
+		/* Lists */
+		this.composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
+		this.collaborations.addAll(List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13));
+		this.compositions.addAll(List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7));
+		this.messages.addAll(List.of(mcp2_marc_1, mcp2_celine_1, mcp2_jean_1, mcp2_bea_1, mcp2_bea_2));
 	}
 
 }

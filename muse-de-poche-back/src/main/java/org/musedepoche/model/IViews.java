@@ -5,9 +5,9 @@ public interface IViews {
 	
 	public static interface IViewDetail {}
 	
-	public static interface IViewCollaborationComposition {}
+	public static interface IViewWithComposition {}
 	
-	public static interface IViewCollaborationComposer {}
+	public static interface IViewWithComposer {}
 	
 	public static interface IViewComposer extends IViewBasic {}
 	
@@ -15,7 +15,11 @@ public interface IViews {
 
 	public static interface IViewCollaboration extends IViewBasic {}
 	
-	public static interface IViewCollaborationDetail extends IViewCollaboration , IViewDetail, IViewCollaborationComposition, IViewCollaborationComposer {}
+	public static interface IViewCollaborationDetail extends IViewCollaboration, IViewDetail, IViewWithComposition, IViewWithComposer {}
+	
+	public static interface IViewCollaborationByComposer extends IViewCollaboration, IViewWithComposition {}
+	
+	public static interface IViewCollaborationByComposition extends IViewCollaboration, IViewWithComposer {}
 	
 	public static interface IViewComposition extends IViewBasic {}
 
@@ -23,8 +27,10 @@ public interface IViews {
 	
 	public static interface IViewMessage extends IViewBasic {}
 
-	public static interface IViewMessageDetail extends IViewMessage, IViewDetail {}
+	public static interface IViewMessageDetail extends IViewMessage, IViewDetail, IViewWithComposition, IViewWithComposer {}
+
+	public static interface IViewMessageByComposer extends IViewMessage, IViewWithComposition {}
 	
-	public static interface IViewTrack extends IViewBasic {}
+	public static interface IViewMessageByComposition extends IViewMessage, IViewWithComposer {}
 
 }
