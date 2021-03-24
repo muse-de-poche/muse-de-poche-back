@@ -1,5 +1,10 @@
 package org.musedepoche.dao;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,10 +14,21 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.musedepoche.model.Collaboration;
 import org.musedepoche.model.Composer;
 import org.musedepoche.model.Composition;
+import org.musedepoche.model.Metronome;
+import org.musedepoche.model.Message;
 import org.musedepoche.model.Right;
+import org.musedepoche.model.Sound;
 import org.musedepoche.model.Status;
+import org.musedepoche.model.Track;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Mutualisation du mock pour les *Jpa repository.
+ * 
+ * @author Martin L.
+ * @author Cyril R.
+ * @author Lionel R.
+ */
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DataDao {
 
@@ -36,7 +52,7 @@ public abstract class DataDao {
 
 	@Autowired
 	protected ISoundDao soundDao;
-	
+
 	protected int numberOfComposer;
 	protected int numberOfComposition;
 	protected int numberOfCollaboration;
@@ -44,16 +60,21 @@ public abstract class DataDao {
 	protected int numberOfMetronome;
 	protected int numberOfTrask;
 	protected int numberOfSound;
+	protected List<Composer> composers = new ArrayList<Composer>();
+	protected List<Collaboration> collaborations = new ArrayList<Collaboration>();
+	protected List<Composition> compositions = new ArrayList<Composition>();
+	protected List<Message> messages = new ArrayList<Message>();
 
 	@BeforeAll
 	public void init() {
 		/* Composers */
-		Composer jean = new Composer("Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
-		Composer bea = new Composer("Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
-		Composer jc = new Composer("jc", "vd", "France", "jc.vd@gmail.com", new Date());
-		Composer axel = new Composer("Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
-		Composer celine = new Composer("Celine", "Pierre", "France", "celine.pierre@gmail.com", new Date());
-		Composer marc = new Composer("Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
+		Composer jean = new Composer("Jmarc", "Jmarc123", "Jean", "Marc", "France", "jean.marc@gmail.com", new Date());
+		Composer bea = new Composer("Btyne", "Btyne123", "Bea", "Tyne", "France", "bea.tyne@gmail.com", new Date());
+		Composer jc = new Composer("Jvd", "Jvd123", "jc", "vd", "France", "jc.vd@gmail.com", new Date());
+		Composer axel = new Composer("Atune", "Atune123", "Axel", "Tune", "France", "axel.tune@gmail.com", new Date());
+		Composer celine = new Composer("Cpierre", "Cpierre123", "Celine", "Pierre", "France", "celine.pierre@gmail.com",
+				new Date());
+		Composer marc = new Composer("Mjean", "Mjean123", "Marc", "Jean", "France", "marc.jean@gmail.com", new Date());
 
 		jean = composerDao.save(jean);
 		bea = composerDao.save(bea);
@@ -61,17 +82,17 @@ public abstract class DataDao {
 		axel = composerDao.save(axel);
 		celine = composerDao.save(celine);
 		marc = composerDao.save(marc);
-		
+
 		this.numberOfComposer = 6;
 
 		/* Compositions */
-		Composition cp1 = new Composition(new Date(), 1002, jean);
-		Composition cp2 = new Composition(new Date(), 658495, bea);
-		Composition cp3 = new Composition(new Date(), 10, jean);
-		Composition cp4 = new Composition(new Date(), 536, axel);
-		Composition cp5 = new Composition(new Date(), 485, celine);
-		Composition cp6 = new Composition(new Date(), 1002, marc);
-		Composition cp7 = new Composition(new Date(), 1, jc);
+		Composition cp1 = new Composition("Jean1", 1002, jean);
+		Composition cp2 = new Composition("Bea1", 658495, bea);
+		Composition cp3 = new Composition("Jean2", 10, jean);
+		Composition cp4 = new Composition("Axel1", 536, axel);
+		Composition cp5 = new Composition("Celine1", 485, celine);
+		Composition cp6 = new Composition("Marc1", 1002, marc);
+		Composition cp7 = new Composition("JC1", 1, jc);
 
 		cp1 = compositionDao.save(cp1);
 		cp2 = compositionDao.save(cp2);
@@ -82,34 +103,36 @@ public abstract class DataDao {
 		cp7 = compositionDao.save(cp7);
 
 		this.numberOfComposition = 7;
-		
+
 		/* Collaborations */
 		Collaboration col1 = new Collaboration(new Date(), new Date(), new Date(), cp1, bea, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Lorem ipsum dolor sit amet, consectetur efficitur.");
 		Collaboration col2 = new Collaboration(new Date(), new Date(), new Date(), cp1, axel, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY,
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris viverra sed nisi nec dapibus. Duis et nulla id.");
 		Collaboration col3 = new Collaboration(new Date(), new Date(), new Date(), cp2, marc, Status.REJECTED,
-				Right.READONLY);
+				Right.READONLY, "Nunc elementum fringilla tortor vitae luctus efficitur.");
 		Collaboration col4 = new Collaboration(new Date(), new Date(), new Date(), cp2, celine, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Fusce bibendum neque a semper maximus. Nam turpis duis.");
 		Collaboration col5 = new Collaboration(new Date(), new Date(), new Date(), cp2, jean, Status.ACCEPTED,
-				Right.WRITE);
+				Right.WRITE, "Etiam et viverra tellus. Cras quis aenean.");
 		Collaboration col6 = new Collaboration(new Date(), new Date(), new Date(), cp3, bea, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Pellentesque ut erat porttitor.");
 		Collaboration col7 = new Collaboration(new Date(), new Date(), new Date(), cp3, marc, Status.BANNED,
-				Right.READONLY);
+				Right.READONLY,
+				"Vivamus dignissim lacinia euismod. Donec venenatis magna felis, id cursus mi bibendum a. Quisque ultrices est non.");
 		Collaboration col8 = new Collaboration(new Date(), new Date(), new Date(), cp4, bea, Status.ACCEPTED,
-				Right.WRITE);
+				Right.WRITE, "CCTVVMB");
 		Collaboration col9 = new Collaboration(new Date(), new Date(), new Date(), cp5, bea, Status.ACCEPTED,
-				Right.FULL);
+				Right.FULL, "Vestibulum sodales, sem sit amet imperdiet commodo, magna tortor faucibus arcu posuere.");
 		Collaboration col10 = new Collaboration(new Date(), new Date(), new Date(), cp5, jean, Status.BANNED,
-				Right.READONLY);
+				Right.READONLY, "Nullam ut euismod tortor. Integer tincidunt.");
 		Collaboration col11 = new Collaboration(new Date(), new Date(), new Date(), cp5, axel, Status.CANCELED,
-				Right.READONLY);
+				Right.READONLY, "Nullam faucibus quis tellus et viverra.");
 		Collaboration col12 = new Collaboration(new Date(), new Date(), new Date(), cp6, bea, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Ut purus lorem, interdum ac congue a, ultricies eu mauris.");
 		Collaboration col13 = new Collaboration(new Date(), new Date(), new Date(), cp7, jean, Status.ACCEPTED,
-				Right.READONLY);
+				Right.READONLY, "Morbi nec velit placerat, rhoncus ut.");
 
 		col1 = collaborationDao.save(col1);
 		col2 = collaborationDao.save(col2);
@@ -126,7 +149,7 @@ public abstract class DataDao {
 		col13 = collaborationDao.save(col13);
 
 		this.numberOfCollaboration = 13;
-		
+
 		/* list composition by composer */
 		List<Composition> jeanCompositions = List.of(cp1, cp3);
 		List<Composition> beaCompositions = List.of(cp2);
@@ -153,53 +176,119 @@ public abstract class DataDao {
 		List<Collaboration> cp5Collaboration = List.of(col9, col10, col11);
 		List<Collaboration> cp6Collaboration = List.of(col12);
 		List<Collaboration> cp7Collaboration = List.of(col13);
+		
+		Metronome met1 = new Metronome("4/4", 1, 120);
+		Metronome met2 = new Metronome("5/4", 3, 90);
+		Metronome met3 = new Metronome("6/8", 2, 160);
+		Metronome met4 = new Metronome("12/8", 1, 100);
+
+		met1 = metronomeDao.save(met1);
+		met2 = metronomeDao.save(met2);
+		met3 = metronomeDao.save(met3);
+		met4 = metronomeDao.save(met4);
+		
+		cp1.setMetronome(met1);
+		cp2.setMetronome(met2);
+		cp5.setMetronome(met3);
+		cp7.setMetronome(met4);
+		
+		Track tr1 = new Track(0, "guitare", null, cp1);
+		Track tr2 = new Track(0, "basse", null, cp1);
+		Track tr3 = new Track(0, "voix lead", null, cp1);
+		Track tr4 = new Track(0, "choeurs", null, cp1);
+		Track tr5 = new Track(0, "guitare folk", null, cp2);
+		Track tr6 = new Track(0, "triangle", null, cp2);
+		Track tr7 = new Track(0, "guimbarde", null, cp3);
+		Track tr8 = new Track(0, "ukulélé", null, cp5);
+		Track tr9 = new Track(0, "aisselle", null, cp5);
+
+		tr1 = trackDao.save(tr1);
+		tr2 = trackDao.save(tr2);
+		tr3 = trackDao.save(tr3);
+		tr4 = trackDao.save(tr4);
+		tr5 = trackDao.save(tr5);
+		tr6 = trackDao.save(tr6);
+		tr7 = trackDao.save(tr7);
+		tr8 = trackDao.save(tr8);
+		tr9 = trackDao.save(tr9);
 
 		/* update composer with list<composition> and list<collaboration> */
 		jean.setCompositions(jeanCompositions);
 		jean.setCollaborations(jeanCollaboration);
-		composerDao.save(jean);
+		jean = composerDao.save(jean);
 
 		bea.setCompositions(beaCompositions);
 		bea.setCollaborations(beaCollaboration);
-		composerDao.save(bea);
+		bea = composerDao.save(bea);
 
 		jc.setCompositions(jcCompositions);
 		jc.setCollaborations(jcCollaboration);
-		composerDao.save(jc);
+		jc = composerDao.save(jc);
 
 		axel.setCompositions(axelCompositions);
 		axel.setCollaborations(axelCollaboration);
-		composerDao.save(axel);
+		axel = composerDao.save(axel);
 
 		celine.setCompositions(celineCompositions);
 		celine.setCollaborations(celineCollaboration);
-		composerDao.save(celine);
+		celine = composerDao.save(celine);
 
 		marc.setCompositions(marcCompositions);
 		marc.setCollaborations(marcCollaboration);
-		composerDao.save(marc);
+		marc = composerDao.save(marc);
 
 		/* update composition with list<collaboration> */
 		cp1.setCollaborations(cp1Collaboration);
-		compositionDao.save(cp1);
+		cp1 = compositionDao.save(cp1);
 
 		cp2.setCollaborations(cp2Collaboration);
-		compositionDao.save(cp2);
+		cp2 = compositionDao.save(cp2);
 
 		cp3.setCollaborations(cp3Collaboration);
-		compositionDao.save(cp3);
+		cp3 = compositionDao.save(cp3);
 
 		cp4.setCollaborations(cp4Collaboration);
-		compositionDao.save(cp4);
+		cp4 = compositionDao.save(cp4);
 
 		cp5.setCollaborations(cp5Collaboration);
-		compositionDao.save(cp5);
+		cp5 = compositionDao.save(cp5);
 
 		cp6.setCollaborations(cp6Collaboration);
-		compositionDao.save(cp6);
+		cp6 = compositionDao.save(cp6);
 
 		cp7.setCollaborations(cp7Collaboration);
-		compositionDao.save(cp7);
+		cp7 = compositionDao.save(cp7);
+		
+		Path path = Paths.get("src/test/resources/sample.wav");
+		Sound sound = null;
+		try {
+			sound = new Sound(0,Files.readAllBytes(path), tr1);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		sound = soundDao.save(sound);
+
+		
+		/* Messages */
+		/* marc, celine, jean, bea */
+		Message mcp2_marc_1 = new Message(marc, cp2, "KIKOUUU !");
+		Message mcp2_celine_1 = new Message(celine, cp2, "KIKOUUU !*? SRX !");
+		Message mcp2_jean_1 = new Message(celine, cp2, "STOP RAGE Céline");
+		Message mcp2_bea_1 = new Message(bea, cp2, "Merci à tous pour votre implication ...");
+		Message mcp2_bea_2 = new Message(bea, cp2, "Sinon j'ai ajouté de la cornemuse");
+		
+		mcp2_marc_1 = this.messageDao.save(mcp2_marc_1);
+		mcp2_celine_1 = this.messageDao.save(mcp2_celine_1);
+		mcp2_jean_1 = this.messageDao.save(mcp2_jean_1);
+		mcp2_bea_1 = this.messageDao.save(mcp2_bea_1);
+		mcp2_bea_2 = this.messageDao.save(mcp2_bea_2);
+		
+		/* Lists */
+		this.composers.addAll(List.of(jean,bea,jc,axel,celine,marc));
+		this.collaborations.addAll(List.of(col1,col2,col3,col4,col5,col6,col7,col8,col9,col10,col11,col12,col13));
+		this.compositions.addAll(List.of(cp1,cp2,cp3,cp4,cp5,cp6,cp7));
+		this.messages.addAll(List.of(mcp2_marc_1, mcp2_celine_1, mcp2_jean_1, mcp2_bea_1, mcp2_bea_2));
 	}
 
 }

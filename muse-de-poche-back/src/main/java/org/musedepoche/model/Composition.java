@@ -16,14 +16,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.musedepoche.model.IViews.IViewBasic;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * 
- * @author Lionel Rénier
- * Composition is a main component of Muse de Poche,
- * It defined a musical composition where one or many compositors can work together
- * Contains one to many tracks
- * 1 owner
- * 1 metronome
+ * @author Lionel Rénier Composition is a main component of Muse de Poche, It
+ *         defined a musical composition where one or many compositors can work
+ *         together Contains one to many tracks 1 owner 1 metronome
  */
 
 @Entity
@@ -31,69 +32,89 @@ import javax.persistence.TemporalType;
 public class Composition {
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
+	@JsonView(IViews.IViewBasic.class)
+	private String title;
+
+	@JsonView(IViews.IViewBasic.class)
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 
+	@JsonView(IViews.IViewBasic.class)
+	@Temporal(TemporalType.DATE)
+	private Date lastUpdate;
+
+	@JsonView(IViews.IViewBasic.class)
 	private int playsNumber;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	@ManyToOne
 	private Composer owner;
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	@OneToMany(mappedBy = "composition", fetch = FetchType.EAGER)
 	private List<Collaboration> collaborations = new ArrayList<Collaboration>();
 
+	@JsonView(IViews.IViewCompositionDetail.class)
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "metronome")
 	private Metronome metronome;
 
-	@OneToMany(mappedBy = "composition", fetch = FetchType.LAZY)
+	@JsonView(IViews.IViewCompositionDetail.class)
+	@OneToMany(mappedBy = "composition")
 	private List<Track> tracks = new ArrayList<Track>();
+
+	@JsonView(IViews.IViewBasic.class)
+	private String blobPath;
 
 	public Composition() {
 		super();
+		this.createdDate = new Date();
 	}
 
 	/**
 	 * Composition constructor
+	 * 
 	 * @param id
-	 * @param Date createdDate (date of creation of the composition) 
-	 * @param int playsNumber (number of plays)
+	 * @param String      title (title of the composition)
+	 * @param int         playsNumber (number of plays)
 	 * @param Composition owner
-	 * @param List collaborations (List of collaborations)
+	 * @param List        collaborations (List of collaborations)
 	 */
-	public Composition(Long id, Date createdDate, int playsNumber, Composer owner, List<Collaboration> collaborations) {
+	public Composition(Long id, String title, int playsNumber, Composer owner, List<Collaboration> collaborations) {
 		super();
 		this.id = id;
-		this.createdDate = createdDate;
-		this.playsNumber = playsNumber;
-		this.owner = owner;
-		this.collaborations = collaborations;
-	}
-	
-	public Composition(Date createdDate, int playsNumber, Composer owner) {
-		super();
-		this.createdDate = createdDate;
-		this.playsNumber = playsNumber;
-		this.owner = owner;
-	}
-  	/**
-	 * 
-	 * Composition constructor
-	 * @param Date createdDate (date of creation of the composition) 
-	 * @param int playsNumber (number of plays)
-	 * @param Composition owner
-	 * @param List collaborations (List of collaborations)
-	 */
-	public Composition(Date createdDate, int playsNumber, Composer owner, List<Collaboration> collaborations) {
-		super();
-		this.createdDate = createdDate;
+		this.title = title;
 		this.playsNumber = playsNumber;
 		this.owner = owner;
 		this.collaborations = collaborations;
 	}
 
+	public Composition(String title, int playsNumber, Composer owner) {
+		super();
+		this.title = title;
+		this.playsNumber = playsNumber;
+		this.owner = owner;
+	}
+
+	/**
+	 * 
+	 * Composition constructor
+	 * 
+	 * @param String      title (title of the composition)
+	 * @param int         playsNumber (number of plays)
+	 * @param Composition owner
+	 * @param List        collaborations (List of collaborations)
+	 */
+	public Composition(String title, int playsNumber, Composer owner, List<Collaboration> collaborations) {
+		super();
+		this.title = title;
+		this.playsNumber = playsNumber;
+		this.owner = owner;
+		this.collaborations = collaborations;
+	}
 
 	public Long getId() {
 		return id;
@@ -103,12 +124,36 @@ public class Composition {
 		this.id = id;
 	}
 
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
 	public Date getCreatedDate() {
 		return createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public Date getLastUpdate() {
+		return lastUpdate;
+	}
+
+	public void setLastUpdate(Date lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public String getBlobPath() {
+		return blobPath;
+	}
+
+	public void setBlobPath(String blobPath) {
+		this.blobPath = blobPath;
 	}
 
 	public int getPlaysNumber() {
@@ -122,7 +167,7 @@ public class Composition {
 	public Composer getOwner() {
 		return owner;
 	}
-	
+
 	public void setOwner(Composer owner) {
 		this.owner = owner;
 	}

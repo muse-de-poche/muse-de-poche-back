@@ -2,12 +2,17 @@ package org.musedepoche.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * Cette entité représente un message echangé entre co-collaborateurs.
@@ -18,24 +23,34 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Message {
-	
+
 	@Id
 	@GeneratedValue
+	@Column(updatable = false)
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonView(IViews.IViewDetail.class)
 	private Date sendingDate;
-	
+
 	@ManyToOne
+	@JoinColumn(updatable = false)
+	@JsonView(IViews.IViewWithComposer.class)
 	private Composer sender;
-	
+
 	@ManyToOne
+	@JoinColumn(updatable = false)
+	@JsonView(IViews.IViewWithComposition.class)
 	private Composition subject;
-	
+
+	@Size(max = 400)
+	@JsonView(IViews.IViewBasic.class)
 	private String text;
-	
+
 	public Message() {
 		super();
+		this.sendingDate = new Date();
 	}
 
 	public Message(Long id, Date sendingDate, Composer sender, Composition subject, String text) {
@@ -53,6 +68,10 @@ public class Message {
 		this.sender = sender;
 		this.subject = subject;
 		this.text = text;
+	}
+
+	public Message(Composer sender, Composition subject, String text) {
+		this(new Date(), sender, subject, text);
 	}
 
 	public Long getId() {
@@ -94,5 +113,5 @@ public class Message {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 }

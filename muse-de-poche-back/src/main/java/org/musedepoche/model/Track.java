@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * 
  * @author Lionel Rénier 
@@ -26,16 +28,21 @@ public class Track {
 
 	@Id
 	@GeneratedValue
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
+	@JsonView(IViews.IViewBasic.class)
 	private int duration;
 
+	@JsonView(IViews.IViewBasic.class)
 	private String instrument;
 
 	@ManyToOne
+	@JsonView(IViews.IViewTrack.class)
 	private Composition composition;
 
 	@OneToMany(mappedBy = "track", fetch = FetchType.LAZY)
+	@JsonView(IViews.IViewTrack.class)
 	private List<Sound> sounds = new ArrayList<Sound>();
 
 	public Track() {
