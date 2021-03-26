@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -32,7 +33,7 @@ public class Composer {
 	@JsonView(IViews.IViewBasic.class)
 	private String password;
 
-	@Column(length = 50)
+	@Column(length = 50, unique = true)
 	@JsonView(IViews.IViewBasic.class)
 	private String lastname;
 
@@ -44,8 +45,8 @@ public class Composer {
 	@JsonView(IViews.IViewBasic.class)
 	private String country;
 
-	@Column(length=255)
 	@Email
+	@Column(length = 255, unique = true)
 	@JsonView(IViews.IViewBasic.class)
 	private String email;
 

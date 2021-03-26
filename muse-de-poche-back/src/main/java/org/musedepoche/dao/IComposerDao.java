@@ -34,7 +34,7 @@ public interface IComposerDao extends JpaRepository<Composer, Long> {
 	 * @param password
 	 * @return
 	 */
-	@Query("select c from Composer c where c.pseudo = :pseudo and c.password = :password")
-	Optional<Composer> findByPseudoAndPassword(@Param("pseudo") String pseudo, @Param("password") String password);
+	@Query("select c from Composer c where (c.pseudo = :login or c.email = :login) and c.password = :password")
+	Optional<Composer> findByPseudoAndPassword(@Param("login") String login, @Param("password") String password);
 
 }

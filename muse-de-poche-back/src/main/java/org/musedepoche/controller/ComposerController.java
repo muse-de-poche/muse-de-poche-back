@@ -1,6 +1,7 @@
 package org.musedepoche.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.musedepoche.dao.IComposerDao;
@@ -109,19 +110,17 @@ public class ComposerController {
 		throw new ResponseStatusException(HttpStatus.OK);
 	}
 	*/
-	/*
+
 	@PostMapping("/login")
 	@JsonView(IViews.IViewComposer.class)
-	public Composer findByPseudoAndPassword(@RequestBody Composer composer) {
-		Optional<Composer> optComposer = composerDao.findByPseudoAndPassword(composer.getPseudo(),composer.getPassword());
+	public Composer findByPseudoAndPassword(@RequestBody Map<String,String> credentials) {
+		Optional<Composer> optComposer = composerDao.findByPseudoAndPassword(credentials.get("login"), credentials.get("password"));
 		
 		if (optComposer.isEmpty()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find resource");	
-		}else {
-			return optComposer.get();
 		}
+		
+		return optComposer.get();
 	}
-	*/
-	
 
 }
