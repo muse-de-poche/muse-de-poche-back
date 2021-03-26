@@ -25,7 +25,7 @@ public class Composer {
 	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 	
-	@Column(length = 100)
+	@Column(length = 100, unique = true)
 	@JsonView(IViews.IViewBasic.class)
 	private String pseudo;
 	
@@ -33,7 +33,7 @@ public class Composer {
 	@JsonView(IViews.IViewBasic.class)
 	private String password;
 
-	@Column(length = 50, unique = true)
+	@Column(length = 50)
 	@JsonView(IViews.IViewBasic.class)
 	private String lastname;
 
