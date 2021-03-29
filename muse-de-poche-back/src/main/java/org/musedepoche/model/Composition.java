@@ -49,20 +49,20 @@ public class Composition {
 	@JsonView(IViews.IViewBasic.class)
 	private int playsNumber;
 
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewDetail.class)
 	@ManyToOne
 	private Composer owner;
 
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewDetail.class)
 	@OneToMany(mappedBy = "composition", fetch = FetchType.EAGER)
 	private List<Collaboration> collaborations = new ArrayList<Collaboration>();
 
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewDetail.class)
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "metronome")
 	private Metronome metronome;
 
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewDetail.class)
 	@OneToMany(mappedBy = "composition")
 	private List<Track> tracks = new ArrayList<Track>();
 

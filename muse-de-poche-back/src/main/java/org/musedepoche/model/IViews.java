@@ -9,6 +9,8 @@ public interface IViews {
 	
 	public static interface IViewWithComposer {}
 	
+	public static interface IViewWithTrack {}
+	
 	public static interface IViewComposer extends IViewBasic {}
 	
 	public static interface IViewComposerDetail extends IViewComposer , IViewDetail {}
@@ -30,11 +32,17 @@ public interface IViews {
 	public static interface IViewMessageDetail extends IViewMessage, IViewDetail, IViewWithComposition, IViewWithComposer {}
 
 	public static interface IViewMessageByComposer extends IViewMessage, IViewWithComposition {}
+	
+	public static interface IViewMessageByComposition extends IViewMessage, IViewWithComposer {}
 
 	public static interface IViewTrack extends IViewBasic {}
 	
-	public static interface IViewTrackDetail extends IViewTrack {}
+	public static interface IViewTrackDetail extends IViewTrack, IViewDetail, IViewWithComposition {}
 
-	public static interface IViewMessageByComposition extends IViewMessage, IViewWithComposer {}
+	public static interface IViewTrackWithComposition extends IViewMessage, IViewWithComposition {}
+	
+	public static interface IViewSound extends IViewBasic {}
+	
+	public static interface IViewSoundDetail extends IViewSound, IViewDetail, IViewWithTrack {}
 
 }

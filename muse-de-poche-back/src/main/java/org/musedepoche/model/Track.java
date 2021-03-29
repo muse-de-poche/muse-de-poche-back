@@ -38,11 +38,11 @@ public class Track {
 	private String instrument;
 
 	@ManyToOne
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewWithComposition.class)
 	private Composition composition;
 
 	@OneToMany(mappedBy = "track", fetch = FetchType.LAZY)
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewDetail.class)
 	private List<Sound> sounds = new ArrayList<Sound>();
 
 	public Track() {

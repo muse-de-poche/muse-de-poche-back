@@ -21,21 +21,21 @@ public class Sound {
 
 	@Id
 	@GeneratedValue
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewBasic.class)
 	private Long id;
 
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewBasic.class)
 	private int position;
 
 	@Lob
-	@JsonView(IViews.IViewTrackDetail.class)
+	@JsonView(IViews.IViewBasic.class)
 	private byte[] file;
 
-	@JsonView(IViews.IViewTrack.class)
+	@JsonView(IViews.IViewBasic.class)
 	private String name;
 
 	@ManyToOne
-	@JsonView(IViews.IViewTrackDetail.class)
+	@JsonView(IViews.IViewWithTrack.class)
 	private Track track;
 
 	public Sound() {

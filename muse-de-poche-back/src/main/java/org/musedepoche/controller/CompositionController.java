@@ -115,7 +115,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/plays-number")
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByPlaysNumber() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "playsNumber")));
@@ -123,7 +123,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/created-date")
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByCreatedDate() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "createdDate")));
@@ -131,7 +131,7 @@ public class CompositionController {
 	}
 	
 	@GetMapping("/update-date")
-	@JsonView(IViews.IViewCompositionDetail.class)
+	@JsonView(IViews.IViewComposition.class)
 	public List<Composition> sortedByUpdateDate() {
 		Page<Composition> compos = compositionDao.findAll(
 				  PageRequest.of(0, 10, Sort.by(Sort.Direction.DESC, "lastUpdate")));
