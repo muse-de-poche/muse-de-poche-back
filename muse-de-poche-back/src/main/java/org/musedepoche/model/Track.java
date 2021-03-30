@@ -42,7 +42,7 @@ public class Track {
 	private Composition composition;
 
 	@OneToMany(mappedBy = "track", fetch = FetchType.LAZY)
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewBasic.class)
 	private List<Sound> sounds = new ArrayList<Sound>();
 
 	public Track() {
