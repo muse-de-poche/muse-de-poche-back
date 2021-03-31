@@ -47,4 +47,16 @@ public interface ICollaborationDao extends JpaRepository<Collaboration, Long> {
 	@Query("select c from Collaboration c where c.status = :status")
 	List<Collaboration> findByStatus(@Param("status") Status status);
 	
+	/**
+	 * Répond {@code true} si le compositeur {@code composer} est à des droit sur la {@code composition}.
+	 * 
+	 * @param composer
+	 * @Param Composition 
+	 * @return {@code true} si cmposer à des droits sur la composition, {@code false} sinon
+	 * 
+	 * @author Cyril R.
+	 */
+	@Query("select case when count(c) > 0 then true else false end from Collaboration c where (c.composer.id = :composer and c.composition.id = :composition) and c.status = 'ACCEPTED'")
+	boolean hasTheEditingRightsOn(@Param("composer") Long composer, @Param("composition") Long composition);
+	
 }

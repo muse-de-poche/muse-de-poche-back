@@ -111,4 +111,9 @@ public class CollaborationController {
 		return this.collaborationDao.findByComposition(id);
 	}
 
+	@GetMapping("/{composerId}/hasTheEditingRightsOn/{compositionId}")
+	public boolean hasTheEditingRightsOn(@PathVariable Long composerId, @PathVariable Long compositionId) {
+		return this.collaborationDao.hasTheEditingRightsOn(composerId, compositionId);
+	}
+	
 }
