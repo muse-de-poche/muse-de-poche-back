@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.musedepoche.dao.ICompositionDao;
+import org.musedepoche.dao.IMetronomeDao;
 import org.musedepoche.model.Composition;
 import org.musedepoche.model.IViews;
+import org.musedepoche.model.Metronome;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +34,9 @@ public class CompositionController {
 
 	@Autowired
 	private ICompositionDao compositionDao;
+	
+	@Autowired
+	private IMetronomeDao metronomeDao;
 
 	@JsonView(IViews.IViewCompositionDetail.class)
 	@GetMapping("")
@@ -85,6 +90,8 @@ public class CompositionController {
 	@PostMapping("")
 	@JsonView(IViews.IViewCompositionDetail.class)
 	public Composition create(@RequestBody Composition compo) {
+		Metronome metronome = metronomeDao.save(new Metronome("4", 1, 120));
+		compo.setMetronome(metronome);
 		compo = compositionDao.save(compo);
 		return compo;
 	}
