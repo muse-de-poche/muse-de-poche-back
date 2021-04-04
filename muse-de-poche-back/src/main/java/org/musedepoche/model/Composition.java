@@ -49,7 +49,7 @@ public class Composition {
 	@JsonView(IViews.IViewBasic.class)
 	private int playsNumber;
 
-	@JsonView(IViews.IViewDetail.class)
+	@JsonView(IViews.IViewBasic.class)
 	@ManyToOne
 	private Composer owner;
 

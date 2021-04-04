@@ -60,6 +60,19 @@ public class SoundController {
 
 		return dbSound;
 	}
+	
+	@PostMapping()
+	@JsonView(IViews.IViewTrack.class)
+	public Sound createSoundMix(@RequestParam("file") MultipartFile multipartSound)
+			throws Exception {
+		Sound dbSound = new Sound();		
+		
+		dbSound.setFile(multipartSound.getBytes());
+
+		dbSound = soundDao.save(dbSound);
+
+		return dbSound;
+	}
 
 	@GetMapping("/{id}")
 	@JsonView(IViews.IViewTrack.class)
